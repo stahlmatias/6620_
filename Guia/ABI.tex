@@ -1,0 +1,90 @@
+\section{Architecture Binary Interface}
+Esta sección no pretende ser una descripción completa de la ABI presentada en \cite{abi}, sino un detalle de los puntos que se consideran confusos, más importantes o que varían respecto al documento mencionado.
+
+Esta explicación se basa en \cite{abi} y en las observaciones realizadas sobre código assembly generado con GCC, con nivel de optimización 0 (−O0).
+
+Por lo tanto, se recomienda primero leer la sección “Function Calling Sequence” de \cite{abi}, para luego aclarar y/o modificar con el contenido de este documento.
+
+\subsection{Caller y Callee Saved Registers}
+Los siguientes registros deben ser salvados por la función llamada si ésta los debe modificar:
+
+\begin{itemize}
+ \item ra, sp, fp (o s8), gp, s0...s7
+ \item f20 a f30 (floating point)
+\end{itemize}
+
+El resto de los registros no se garantiza que su valor se preserve entre llamadas a funciones. Si la función caller necesita preservarlos, debe salvarlos ella en su stack frame.
+
+\subsection{Stack Frame}
+Cada función crea su Stack Frame siempre.
+
+El Stack Frame se compone de areas de un tamaño múltiplo de 8 bytes, alineadas a 8 bytes.
+
+Los registros en un area se almacenan de abajo hacia arriba, en orden según el número de registro.
+
+Las areas son, en orden de aparición (de arriba hacia abajo en memoria):
+
+\begin{itemize}
+ \item General Register Save Area (obligatoria). Registros salvados:
+ \begin{itemize}
+  \item Siempre: fp, gp;
+  \item Cuando la función es non-leaf: ra;
+  \item Si es necesario: el resto de los general purpose callee-saved regs.
+ \end{itemize}
+\item Floating-Point Registers Save Area: f20 a f30 si es necesario (ver 3-15 de \cite{abi} para más detalle)
+\item Local and Temporary Variables Area;
+\item Argument Building Area.
+\begin{itemize}
+ \item Se crea cuando la función es non-leaf
+ \item Al menos es de 16 bytes, aún cuando los argumentos del callee
+requieren menos.
+ \item Cuando los cuatro primeros argumentos son enteros o punteros,
+se pasan en a0 a a3, y el resto se guarda en esta area a partir de
+los primeros 16 bytes.
+ \item Los argumentos pasados en a0 a a3 son almacenados en esta area
+por el callee siempre.
+\end{itemize}
+\end{itemize}
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{|c|}\hline
+Saved Regs Area (*)\\\hline
+Float Regs Area\\\hline
+Local Area\\\hline
+Arg Building Area
+$\leq$ 16 bytes\\\hline
+\end{tabular}
+\caption{Layout genérico del stack frame. Las areas marcadas con (*) son obligatorias.}
+\end{center}
+\end{table}
+
+
+Debugging: algunas reglas de creación de stack frame existen sólo para
+garantizar que las herramientas de debugging (ej: gdb) puedan puedan
+realizar un stack backtrace (es decir, algunas reglas pueden no seguirse y
+el programa funcionará correctamente, pero no se garantiza un correcto
+analisis post-mortem en caso de que el proceso termine de forma anormal).
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{|c|}\hline
+fp (\$30)\\\hline
+gp (\$28)\\\hline
+\end{tabular}
+\caption{Ejemplo de Saved Regs Area mínima - función leaf.}
+\end{center}
+\end{table}
+
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{|c|}\hline
+alignment [4]\\\hline
+ra (\$31)\\\hline
+fp (\$30)\\\hline
+gp (\$28)\\\hline
+\end{tabular}
+\caption{Ejemplo de Saved Regs Area mínima para una función non-leaf. También puede salvar el resto de los callee-saved registers.}
+\end{center}
+\end{table}

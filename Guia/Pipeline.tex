@@ -1,0 +1,10 @@
+ 
+\chapter{Pipeline}
+El pipelining es una técnica de implementación donde múltiples instrucciones son solapadas en ejecución; toma ventaja del paralelismo que existe entre las acciones requeridas para ejecutar una instrucción.
+
+Un pipeline es como una línea de ensamblado. Por ejemplo, en una línea de ensamblado automotriz, hay muchas etapas, cada una contribuye a la construcción del auto. Cada una opera en paralelo de las otras para diferentes autos. En el pipeline de una computadora, cada etapa completa una parte de la instrucción.
+
+Se define el \textit{throughput} en una línea de ensamblado de autos como el número de autos por hora y se determina por que tan seguido se termina un auto en la línea de montaje. En las computadoras, esto es análogo, y se determina por que tan seguido se completa una instrucción en el pipeline.
+
+Esta técnica de pipelining reduce el tiempo de ejecución promedio por instrucción. Dependiendo de que se considera como base, esta reducción puede ser vista como una reducción en el número de ciclos de reloj por instrucción (CPI) o como una reducción en el tiempo del ciclo de clock o como una combinación. Si se considera un procesador que toma múltiples ciclos de clock por instrucción, entonces pipelining es usualmente visto como una reducción del CPI.
+

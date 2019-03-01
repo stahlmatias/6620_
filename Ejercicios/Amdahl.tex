@@ -1,0 +1,90 @@
+\section{Principios fundamentales}
+\subsection{}
+Demostrar que 
+
+						 $$ SU = \frac {1} {(1-f) + \frac {f}{SU_l}} $$
+
+
+Donde $f$ es la fracción de tiempo a mejorar, y $SU_l$ es la mejora local.
+
+\subsection{}
+
+Un procesador de 300 Mhz ejecuta un programa que presenta los siguientes tipos de instrucciones:
+
+\begin{table}[h!]
+\begin{tabular}{|l|c|c|}
+\hline
+ Tipo de instrucción & Frecuencia (\%)  &  Ciclos  \\ \hline
+ Aritmético-Lógica & 40  &  1  \\ \hline
+ Carga & 20 & 1 \\ \hline
+ Almacenamiento & 10  & 2  \\ \hline
+ Saltos & 20  & 3 \\ \hline
+ Punto Flotante & 10 & 5  \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{enumerate}[label=\alph*)]
+ \item Calcular las tasas de CPI y MIPS, para el programa completo.
+ \item Suponga que una optimización elimina un 30 \% de las instrucciones aritmético-lógicas (o sea, 12 \% del total de instrucciones A-L), 30 \% de instrucciones load y 20 \% de punto flotante. ¿Cuál es el speedup alcanzado?
+ \item Recalcular las tasas de CPI y MIPS para el programa completo. Explicar las diferencias respecto al punto (a).
+\end{enumerate}
+
+\subsection{}
+Se proponen 3 mejoras para una nueva arquitectura con los siguientes Speedups:
+\begin{itemize}
+\item Speedup1 = 30
+\item Speedup2 = 20
+\item Speedup3 = 10
+\end{itemize}
+
+Sólo una mejora es aplicable en cada momento (no se pueden solapar).
+
+\begin{enumerate}[label=\alph*)]
+ \item Si las mejoras 1 y 2 se pueden usar un 30 \% del tiempo, ¿qué fracción del tiempo se debe usar la mejora 3 para lograr un speedup global de 10?
+ \item Asumir que la distribución del uso de las mejoras es del 30 \%, 30 \% y 20 para las mejoras 1, 2 y 3 respectivamente. Asumir que las 3 mejoras están en uso. ¿Qué fracción del tiempo mejorado no tiene una mejora en uso?
+ \item Asumir que para un benchmark la fracción del uso de las mejoras es del 15 \% para 1 y 2 y del 70 \% para la mejora 3. Se quiere maximizar la performance. Si sólo una mejora puede ser aplicada, ¿cuál debería ser elegida? Si 2 mejoras pueden ser aplicadas, ¿cuales deberían ser elegidas?
+\end{enumerate}
+
+\subsection{}
+Se dispone de un benchmark que contiene $195,578$ instrucciones de punto flotante.
+	
+Dicho Benchmark fue ejecutado en un procesador embebido luego de haber sido compilado con las optimizaciones activadas. El procesador embebido está basado en un procesador RISC que incluye unidades de punto flotante, pero el procesador embebido no dispone de ellas por distintas razones. El compilador permite calcular las operaciones de punto flotante mediante unidades punto flotante o mediante rutinas de software, dependiendo en las opciones utilizadas.
+	
+El benchmark se ejecutó en $1,08$ segundos en el procesador RISC, mientras que tomó $13.6$ segundos en la versión embebida. Asumir que el CPI del procesador RISC es $10$, mientras que el CPI del procesador embebido es $6$.
+	
+\begin{enumerate}[label=\alph*)]
+\item Para ambos procesadores, ¿cuántas instrucciones fueron ejecutadas?
+\item Para ambos procesadores, ¿cuál es el valor de la tasa de MIPS?
+\item En promedio, ¿cuántas instrucciones enteras son necesarias para ejecutar una operación de punto flotante en software?
+\end{enumerate}
+	
+Responder considerando que el benchmark puede estar conformado por 
+	
+\begin{itemize}
+    \item Un $100\%$ de instrucciones de punto flotante.
+    \item Instrucciones de punto flotante y enteras.
+\end{itemize}
+
+\subsection{}
+El siguiente es el algoritmo de Booth, utilizado para realizar multiplicaciones binarias de X * Y utilizando sumas, restas y desplazamientos a derecha:
+
+   \begin{enumerate}
+    \item \begin{math} A=0, Q=X, Q_{-1}=0, M=Y \end{math}
+    \item For I = 1 to n do
+          \begin{enumerate}
+           \item \begin{math} if\; Q_{0}Q_{-1} = 01\; then\; A=A + M \end{math}
+	   \item \begin{math} if\; Q_{0}Q_{-1} = 10\; then\; A=A - M \end{math}
+           \item \begin{math} Arithmetic\; Right\; Shift\; (A || Q)\end{math}
+           \end{enumerate}
+   \end{enumerate}
+   La respuesta es almacenada en la combinación de  \begin{math}(A || Q)\end{math}
+
+   El 5\% de todas las instrucciones de un \textit{benchmark} son multiplicaciones binarias de 32 bits (sin ocurrir otras multiplicaciones).
+   Asumir que cada instrucción (línea) en el algoritmo toma 1 ciclo de reloj (incluyendo el for y cada if).
+   
+   Asumir que la máquina que realiza la multiplicación binaria utilizando el hardware dedicado tiene un CPI de 15.
+
+   \begin{enumerate}[label=\alph*)]
+    \item ¿Cuánto más rápida debe ser la máquina con una unidad de multiplicación por hardware que otra máquina que debe realizar la multiplicación utilizando el algoritmo de Boot?
+   \end{enumerate}
+

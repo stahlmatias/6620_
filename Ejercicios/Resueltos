@@ -1,0 +1,86 @@
+ El programa tiene 6 instrucciones, de las cuales 1 accede a memoria para escribir. Estas instrucciones se ejecutan 200 veces cada una. Al no haber todavía cache, cada acceso a memoria
+tardará 100ns, lo que nos da que el tiempo total es:
+ 
+\[T_{tot} = IC_{nomem} \times (T_{fetch} + CPI_{ex} \times T_{ck} ) + IC_{mem} \times (T_{fetch} + CPI_{ex} \times T_{ck} + T_{acc} ) \]
+
+Reemplazando,
+
+\[T_{tot} = 1000 ∗ (100ns + 2ns) + 200 ∗ (100ns + 2ns + 100ns) = 142400ns \]
+
+\[ \textrm{Tiempo de stall} = (IC_{nomem} + IC_{mem} ) \times T_{acc} = (1200 + 200) \times 100ns = 140000ns \]
+ 
+ 
+ \[ \frac{T_{stall}}{T_{tot}} = \frac{140000ns}{142400ns} = 98,3 \% \]
+ 
+ Tenemos una cache DM, 32 KB, block size 16B. Esto nos da un offset de 4 bits y un index de 11 bits.
+
+El programa consta de 6 instrucciones de 32 bits, o sea 24 bytes, y comienza en la posición
+\texttt{0x0000f000}, con lo que el offset de la primera instrucción es 0. Esto implica que el programa
+ocupará dos conjuntos del caché de instrucciones.
+
+De manera que también los datos comienzan en el byte 0 de un bloque de cache,
+y ocupan 200 ∗ 4 bytes, o sea $800B/16B = 50$ conjuntos. Con esto tenemos que el tiempo de
+ejecución es:
+
+Conjuntos del cache ocupados: Para L1I, los bits de index de \texttt{0x0000f000} dan una dirección
+de \texttt{0x700}, o 1792. Para L1D, habíamos calculado que el primer conjunto era \texttt{0x3eb}, o 1003, y
+que son 50 conjuntos consecutivos en total, o sea del 1003 al 1052.
+
+En el caso en que el cache de datos es $WT/¬WA$, tendremos que los accesos por fetch perma-
+necen como antes, mientras que los accesos por escritura tardan todos otra vez 100ns. De esta
+manera,
+
+\[ T_{tot} = 2 ∗ T_{miss} + 1200 ∗ CPI_{ex} ∗ T_{ck} + 200 ∗ T_{acc} \]
+
+
+%2
+
+ Si no hay soporte para memoria virtual, entonces los datos y las instrucciones deben estar almacenados en los 32 MB de memoria física. En caso de que las matrices ocupen 16MB, entonces
+no quedaría lugar para las instrucciones o el stack.
+
+Una matriz de enteros de 16 MB tiene $4 \times 2048 \times 2048$ posiciones, es decir $n = 2048$. Si las
+matrices fuesen de $n \times n$, con $n = 2047$, entonces $T(m) = 2047 \times 2047 \times 4 = 16760836$ bytes. De esta manera, quedan $4 \times (2048^2 − 2047^2 )$ bytes (aprox 16 KB) para las instrucciones y
+otras areas de datos almacenados en memoria.
+
+
+Para el caso de la tabla lineal, existen $2^{20}$ entradas. Entonces, el tamaño de la tabla será de 4MB.
+
+
+Si cada tabla entra en una página, y cada PTE ocupa 4 bytes, entonces cada tabla (de cualquier nivel) tiene 1024 PTEs. La cantidad total de entradas que tiene la estructura jerárquica es de $npte L1 \times npte L2 = 1024^2$ . 
+
+El tamaño de esta estructura es de 4MB. Sin embargo, la computadora solo necesita brindar soporte para traducir 2 páginas de memoria. Entonces, solo se requieren dos entradas en tablas L2. En el mejor de los
+casos, se va a usar una única tabla L2. En el peor de los casos, se van a usar dos tablas L2.
+
+En el primer caso, se van a utilizar 2 páginas de memoria para soportar el sistema de
+traducción. En el segundo, se van a utilizar 3 páginas.
+
+
+Para el caso de la IPT, la tabla va a tener una entrada por cada página en memoria
+física. A partir de la memoria presente en la computadora y del tamaño de página, se puede calcular que en memoria física entran $ npte_{ipt} = \frac{2^{25} bytes}{2^{12} bytes / pagina} = 8192$ páginas. Por lo tanto, la tabla tiene un tamaño total de de 32 KB.
+
+
+Para cada lectura / escritura de las matrices se requiere un total de dos accesos para traducir
+la dirección, y un acceso para buscar el dato.
+
+Entonces, $T_{accceso} = T_{trad} + T_{data fetch} = 2 \times 100c + 100c = 300c$
+
+Si ahora agregamos un TLB (y consideramos que cada matriz ocupa una página), el primer
+acceso a cada matriz va a causar un TLB miss. El resto de los accesos resultan en TLB hit.
+
+La forma mas fácil es resolver esto es contar ciclos / accesos.
+
+\begin{verbatim}
+for (i = 0; i < 32; i++)
+    for (j = 0; j <= i; j++) {
+        mat_trans[i][j] = mat[j][i];
+        mat_trans[j][i] = mat[i][j];
+    }
+\end{verbatim}
+
+El loop de adentro se va a ejecutar
+
+A partir de esto, sabemos que hay un total de 2112 accesos.
+
+Ahora podemos calcular el tiempo de acceso: 
+
+\[T_{acceso} = \frac{2}{2112} \times 300 + \frac{2110}{2112} \times 100 = 100,28c \]

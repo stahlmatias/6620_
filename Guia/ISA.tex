@@ -1,0 +1,48 @@
+\chapter{Arquitectura de programación}
+El término arquitectura del conjunto de instrucciones (instruction set architecture) (ISA) se refiere al conjunto de instrucciones visibles al programador. Funciona como la frontera entre el software y el hardware.
+
+
+\section{Modelo de pila}
+Los operandos en una arquitectura de stack están implícitamente en el tope del stack y el hardware debe evaluar la expresión en un solo orden y cargar un operando múltiples veces.
+
+
+\section{Modelo de acumulador}
+En una arquitectura de acumulador un operando está implícito en el acumulador.
+
+
+\section{Modelo de registros de propósito general}
+En la arquitectura de registros de propósito general se tienen únicamente operandos explícitos, ya sea que estén ubicados en registros o en memoria.
+
+Los operandos explícitos podrían ser accedidos directamente de memoria o necesitar ser cargados de memoria a un registro temporal dependiendo de la arquitectura y de la instrucción específica.
+
+
+\section{Modelo de carga y almacenamiento}
+
+En este tipo de arquitectura, la memoria solo puede ser accedida a través de instrucciones de carga y almacenamiento (load/store). 
+
+\subsection{Conjunto de instrucciones RISC}
+
+Las arquitecturas RISC se caracterizan por tener ciertas propiedades que simplifican su implementación.
+
+\begin{itemize}
+\item Todas las operaciones de datos aplican a datos en registros y típicamente modifican todo el registro (32 o 64 bits por registro).
+\item Las únicas operaciones que afectan a la memoria son de carga y almacenamiento (load y stores) que mueven datos de la memoria a un registro o viceversa. Estas operaciones pueden mover datos menores que la capacidad de un registro (por ejemplo 16 bits).
+\item El número de formatos de instrucciones son pocos con todas las instrucciones del mismo tamaño.
+\end{itemize}
+
+Como otras arquitecturas RISC, el conjunto de instrucciones de MIPS tiene 32 registros, aunque el registro 0 siempre tiene el valor 0. 
+
+Hay tres tipos de instrucciones:
+
+\begin{enumerate}
+\item Instrucciones ALU. Estas instrucciones toman dos registros o bien un registro y un inmediato de signo extendido, realiza la operación y almacena el resultado en otro registro.
+
+\item Instrucciones Load / Store. Estas instrucciones toman un registro base, y un inmediato como offset. La suma resultante del contenido del registro y el offset da la dirección efectiva y es usada para direccionar la memoria. En el caso de un store, el segundo registro opera como fuente del dato que se almacena en memoria.
+
+\item Branches  y  jumps. Branches son transferencias condicionales del flujo de control. La forma de especificar la condición del branch, MIPS compara entre un par de registros o entre un registro y cero.
+
+El destino del branch se obtiene sumando un offset con extensión de signo (16 bits) al valor actual del PC.
+\end{enumerate}
+
+\subsection{Modos de direccionamiento}
+\subsection{Formato de instrucciones}

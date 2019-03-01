@@ -1,0 +1,32 @@
+\section{Memoria virtual}
+
+\subsection{¿Donde se ubica un bloque en memoria principal?}
+La penalidad de miss para la memoria virtual es considerablemente alta porque involucra acceso a dispositivos de almacenamiento mecánicos de cinta magnética por ejemplo. Entre elegir bajas tasas de miss o algoritmos de ubicación más simple, los programadores y diseñandores de sistemas operativos eligen la baja tasa de miss dada la alta penalidad de miss. Con lo cual, los sistemas operativos permiten que los bloques se ubiquen en cualquier lugar en memoria principal.
+
+
+\subsection{¿Cómo se encuentra un bloque si está en memoria principal?}
+La paginación se apoya en una estructura que es indexada por el número de página o por el segmento. Esta estructura contiene la dirección física del bloque. Luego, el offset simplemente se concatena a la dirección física de la página.
+
+La estructura de datos que contiene la dirección física de la página usualmente toma forma de tabla de páginas y es indexada por el número de página virtual. El tamaño de la tabla es entonces el espacio de número de páginas en la dirección virtual.
+
+\subsection{¿Qué bloque debe reemplazarse ante un miss en Memoria Virtual?}
+Casi todos los sistemas operativos tratan de reemplazar el bloque menos recientemente usado (LRU). Los procesadores tienen un bit de referencia que se setea cuando se accede a la página para facilitarle la tarea al sistema operativo.
+
+\subsection{¿Qué sucede en una escritura?}
+La estrategia de escritura siempre es write-back dado que los niveles más bajos de memoria podrían involucrar discos magnéticos que toman millones de ciclos de reloj para ser accedidos. Es por esto que se incluye un bit de dirty para escribir bloques a disco únicamente si han sido modificados desde que fueron leídos.
+
+
+\subsection{TLB}
+Las tablas de página por lo general son muy grandes y están almacenadas en memoria, incluso, algunas veces se paginan.
+
+El hecho de paginar significa que cada acceso a memoria requiere al menos dos accesos, uno para obtener la dirección física y otro para obtener el dato en sí.
+
+Para reducir el tiempo de traducción, se utiliza una cache dedicada llamada \textit{translation lookaside buffer}.
+
+Una entrada en la TLB es como una entrada al cache donde el tag contiene una parte de la dirección virtual y la parte de datos contiene el número de página física, además del bit de protección, validez, de uso y de dirty.
+
+Para cambiar el número de página física o el bit de protección de una entrada de la tabla de página, el sistema operativo debe asegurarse que la vieja entrada no se encuentre en la TLB, de otra forma el comportamiento será errático. 
+
+El bit de dirty significa que la página correspondiente está dirty, no que la dirección en la TLB o que el dato en el cache lo están. El sistema operativo resetea estos bits cambiando sus valores en la tabla de página y luego invalida la entrada correspondiente en la TLB. cuando se recarga la entrada desde la tabla de página, la TLB toma los valores adecuados de estos bits.
+
+La TLB utiliza un esquema de ubicación completamente asociativa, con lo cual la traducción empieza enviando la dirección virtual a todos los tags. Por supuesto, el tag tiene que estar marcado como válido.

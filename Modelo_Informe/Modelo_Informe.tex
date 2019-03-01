@@ -1,0 +1,286 @@
+\documentclass[a4paper, 10pt, twoside, notitlepage]{article}
+% idioma
+\usepackage[spanish]{babel}
+\usepackage[utf8x]{inputenc}
+% graficos
+%\usepackage[pdftex]{graphicx}
+%\usepackage{wrapfig}
+
+%\usepackage{listings}
+%\lstset{language=C,basicstyle=\small}
+
+%\usepackage{epic,eepic}
+% estilo
+\usepackage[footnotesize]{caption}
+\usepackage[outer=2cm,inner=4cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lipsum}
+
+\usepackage{color,hyperref}
+\definecolor{black}{rgb}{0.0,0.0,0.0}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=black,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+% matematica
+\usepackage{amsmath} \usepackage{amsfonts} \usepackage{amssymb}
+
+
+\title{\textbf{Trabajo Práctico X\\Título del informe} \\}
+
+\author{ \\
+         Nombre Apellido, \textit{Padrón xxxxx} \\
+          \texttt{ mail@mail.com }       \\
+		  [2.5ex]
+         Nombre Apellido, \textit{Padrón xxxxx}     \\
+          \texttt{mail@mail.com}                      \\ 
+		  [2.5ex]
+		 \\
+         \normalsize{1er. Cuatrimestre de 2019}            \\
+         \normalsize{66.20 Organización de Computadoras $-$ Práctica Jueves} \\
+         \normalsize{Facultad de Ingeniería, Universidad de Buenos Aires} 
+       }
+
+\date{}
+
+\begin{document}
+
+\maketitle
+% \thispagestyle{empty}   % quita el número en la primer página
+
+% \newpage
+\begin{abstract}
+\lipsum[3-3]
+\end{abstract}
+
+% \tableofcontents
+% 
+% \newpage
+% 
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\renewcommand{\headrulewidth}{0.4pt}
+%\renewcommand{\footrulewidth}{0.4pt}
+\fancyhead[LE]{\nouppercase \rightmark}
+\fancyhead[RE, LO]{\bf \thepage}
+\fancyhead[RO]{\nouppercase \rightmark}
+\fancyfoot[C]{ }
+\maketitle
+%genera el indice - compilar dos veces
+\setcounter{page}{1}
+% \tableofcontents
+% \newpage
+
+\parskip 7.2pt
+
+\section{Introducción}
+\lipsum[3-3]
+
+
+\begin{verbatim}
+-V, --version
+-h, --help
+-i, --ignore-case 
+\end{verbatim}
+
+
+\section{Diseño e Implementación}
+\subsection{Análisis de la línea de comandos}
+Las opciones válidas ingresadas por línea de comandos como fue mencionado, pueden ser:
+
+\begin{verbatim}
+-V, --version
+-h, --help
+-i, --ignore-case 
+\end{verbatim}
+
+\lipsum[3-3]
+
+
+\begin{verbatim}
+const char *const short_opt = "hvi";
+const struct option long_opt[] = {
+    {"help", 0, NULL, 'h'},
+    {"version", 0, NULL, 'v'},
+    {"ignore-case", 0, NULL, 'i'},
+    {NULL, 0, NULL, 0}
+};
+\end{verbatim}
+
+
+
+\begin{itemize}
+ \item COD\_HELP 0: Se solicitó la ayuda por medio de la opción -h.
+ \item COD\_VERSION 1: Se solicitó la versión por medio de la opción -v.
+\end{itemize}
+
+\newpage
+\subsection{Desarrollo del Código Fuente}
+\lipsum[3-3]
+
+\begin{enumerate}
+ \item \textbf{optfunctions.h}: Funciones para el manejo de las opciones.
+ \item \textbf{line.h}: Funciones útiles para el manejo de cadenas de caracteres.
+\end{enumerate}
+
+\lipsum[3-3]
+
+
+
+\section{Proceso de Compilación}
+
+Se cuenta con un archivo Makefile que indica las reglas de compilación ejecutadas por el comando make.
+
+El código fuente se compila ejecutando el comando make con alguna de las posibles reglas. En todos los casos se compila con los flags de warnings y de debbugging prendidos.
+
+\begin{itemize} 
+ \item[] \textbf{make tp}: Crea el ejecutable.
+ \item[] \textbf{make tp.mips}: Genera el código de máquina para MIPS.
+ \item[] \textbf{make all}: Crea el ejecutable join.
+\end{itemize}
+
+Además se cuenta con las siguientes reglas adicionales.
+
+\begin{itemize}
+ \item[] \textbf{indent}: Indenta los archivos fuentes que componen nuestra aplicación.
+\end{itemize}
+
+Para eliminar todos los archivos generados por el comando make, se puede ejecutar con la regla clean de la forma:
+
+\begin{itemize}
+ \item[] \textbf{make clean}
+\end{itemize}
+
+
+\section{Portabilidad}
+
+Dado que se utilizó el lenguaje de programación C, sin hacer uso de funciones específicas de sistemas operativos,  o de bibliotecas comerciales, los programas pueden ser compilados en varios de ellos. De todas formas, el Makefile presentado fue hecho particularmente para sistemas de tipo UNIX.
+
+Los casos de prueba presentados fueron llevados a cabo en una arquitectura MIPS emulada. El programa de emulación utilizado fue GXemul y el sistema operativo en la máquina emulada fue NetBSD.
+
+Los programas también fueron probados en Ubuntu-Linux corriendo en una arquitectura Intel x86 satisfactoriamente.
+
+
+\section{Casos de Prueba}
+
+A continuación mostraremos los casos básicos de prueba realizados a la aplicación.
+
+\subsection{Línea de comandos}
+
+Ejecutamos la aplicación sin parámetros.
+\scriptsize
+\begin{verbatim}
+# ./tp ; echo $?
+join: missing operand
+Try `tp --help' for more information.
+3
+\end{verbatim}
+\normalsize
+
+Pasamos una opción inválida.
+\scriptsize
+\begin{verbatim}
+./tp invalid ; echo $?
+Error: opening file invalid
+6
+\end{verbatim}
+\normalsize
+
+No pasamos un argumento cuando la opción lo requiere.
+\scriptsize
+\begin{verbatim}
+ ./tp - ; echo $?
+join: missing operand after `-'
+Try `join --help' for more information.
+4
+\end{verbatim}
+\normalsize
+
+Tratamos de abrir un archivo inexistente como entrada.
+\scriptsize
+\begin{verbatim}
+# ls -l null
+ls: null: No such file or directory
+
+# ./tp - null
+Error: opening file null
+6
+\end{verbatim}
+\normalsize
+
+Tratamos de utilizar dos veces stdin.
+\scriptsize
+\begin{verbatim}
+ # ./tp - - ; echo $?
+Error: stdin can be used only once
+5
+\end{verbatim}
+\normalsize
+
+
+\subsection{Funcionamiento de la aplicación}
+
+
+Finalmente mostramos el caso de prueba proporcionado en el enunciado.
+\scriptsize
+\begin{verbatim}
+Salida del caso de prueba
+\end{verbatim}
+\normalsize
+
+Dado que trabajamos con memoria dinámica, tenemos que verificar que no haya fugas de memoria, ni ningún otro error posible. Para ello utilizamos la herramienta Valgrind en la máquina Host, en este caso es una máquina Linux con Ubuntu.
+
+\scriptsize
+\begin{verbatim}
+$ uname -a
+Linux dell 2.6.32-33-generic #72-Ubuntu SMP Fri Jul 29 21:08:37 UTC 2011 i686 GNU/Linux
+
+:~/6620-tp0$ valgrind -v --tool=memcheck --leak-check=yes ./join-6620 -i ApellidoNombre Puntaje
+
+[...]
+==12692== HEAP SUMMARY:
+==12692==     in use at exit: 0 bytes in 0 blocks
+==12692==   total heap usage: 24 allocs, 24 frees, 1,144 bytes allocated
+==12692== 
+==12692== All heap blocks were freed -- no leaks are possible
+==12692== 
+==12692== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 12 from 7)
+--12692-- 
+--12692-- used_suppression:     12 dl-hack3-cond-1
+==12692== 
+==12692== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 12 from 7)
+
+\end{verbatim}
+\normalsize
+
+\newpage
+\section{Conclusiones}
+
+\lipsum[3-3]
+
+
+\vspace{.5cm}
+ \begin{thebibliography}{5}
+ \bibitem{} GXemul. \url{http://gavare.se/gxemul/}.
+ \bibitem{} The NetBSD project. \url{http://www.netbsd.org/}.
+ \bibitem{} Vim the Editor. \url{http://www.vim.org/}.
+ \bibitem{} B. Kernighan, D.Ritchie, \textit{The C Programming Languaje}. Person Prentice Hall 
+ \bibitem{} B. Kernighan, R. Pike, \textit{The Unix Programming Environment}. Prentice Hall
+ \bibitem{valgrind} Valgrind, valgrind-3.6.0.SVN-Debian, \url{http://valgrind.org/}
+\end{thebibliography}
+ 
+\newpage
+
+ \appendix
+ \section{Enunciado}
+ 
+%  \newpage
+%  
+%  \section{Código Assembler de arquitectura MIPS}
+
+\end{document}

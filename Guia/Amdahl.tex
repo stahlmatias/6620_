@@ -1,0 +1,120 @@
+\chapter{Principios fundamentales}
+¿Cómo pasa un programa escrito en un lenguaje de alto nivel como C o Java a traducirse a lenguaje de máquina, y cómo el hardware ejecuta el programa resultante?
+
+¿Cuál es la interface entre el software y el hardware, y cómo el software controla el hardware para realizar las funciones requeridas?
+
+¿Qué determina la performance de un programa, y como un desarrollador puede mejorar dicha performance?
+
+¿Qué técnicas pueden ser utilizadas por ingenieros para mejorar la performance?
+
+¿Cuáles son los motivos y las consecuencias del cambio de procesamiento secuencial al procesamiento paralelo?
+
+Sin entendimiento acabado de las respuestas a estas preguntas, mejorar la performance de un programa en un sistema de cómputo moderno o evaluar que características podrían hacer una computadora mejor que otra para una aplicación particular, terminará siendo un proceso demasiado complejo de prueba y error en lugar de ser un procedimiento científico canalizado por el entendimiento y el análisis.
+
+\section{Desempeño}
+Cuando se trata de elegir entre distintas computadoras, el rendimiento o la performance es un atributo importante. Medir la performance en forma precisa y correcta para comparar distintas computadoras es crítica para los compradores y por lo tanto para los diseñadores.
+
+Para maximizar la performance vamos a querer minimizar el tiempo de respuesta o el tiempo de ejecución de una determinada tarea. Con lo cual, podemos relacionar la performance y el tiempo de ejecución para una computadora X.
+
+\[ \text{Performance}_\text{x} = \frac{1}{\text{Tiempo de ejecución}_\text{tx}} \]
+
+Si la performance de X es mayor que la performance de Y, tenemos que:
+
+\[ \text{Performance}_\text{x} > \text{Performance}_\text{y} \]
+\[ \frac{1}{\text{Tiempo de ejecución}_\text{x}} > \frac{1}{\text{Tiempo de ejecución}_\text{y}} \]
+\[ \text{Tiempo de ejecución}_\text{y} > \text{Tiempo de ejecución}_\text{x} \]
+
+El tiempo de ejecución de Y es mayor que el de X, es decir, X es más rápida que Y.
+
+\section{Benchmarks}
+La mejor opción para comparar o medir performance (benchmark) son las aplicaciones reales, aquellas que se van a ejecutar, por ejemplo un compilador. El intento de correr programas que son mucho más simples que una aplicación real lleva a resultados de performace no del todo certeros. Ejemplos de estos pueden ser:
+
+\begin{itemize}
+\item kernels, partes pequeñas y significativas de una aplicación real.
+\item programas de juguete, son programas de no más de 100 líneas, como el quicksort.
+\item benchmarks sintéticos, son programas inventados que aprovechan ciertas características de una determinada computadora, como Dhrystone.
+\end{itemize}
+
+\section{Ley de Amdahl}
+La ley de Amdahl determina que la mejora en la performance obtenida de usar un modo más rápido de ejecución está limitada por la fracción de tiempo donde puede ser utilizado dicho modo más rápido.
+
+La ley de Amdahl define el speedup que puede ser obtenido al utilizar una mejora particular. 
+
+El speedup está determinado por la relación:
+
+\[\text{speedup} = \frac{\text{Performance de toda la tarea utilizando la mejora cuando es posible}}{\text{Performance de toda la tarea sin ninguna mejora}} \]
+
+O de otro modo,
+
+\[\text{speedup} = \frac{\text{Tiempo de ejecución de toda la tarea sin utilizar la mejora}}{\text{Tiempo de ejecución de toda la tarea utilizando la mejora cuando es posible}} \]
+
+El speedup indica que tan rápido se puede correr una tarea al utilizar una mejora en contraposición al tiempo original sin mejora.
+
+La ley de Amdahl entonces nos brinda una forma rápida de encontrar el speedup de una mejora que depende de dos factores:
+
+\begin{enumerate}
+ \item La fracción de tiempo del tiempo original que se puede aplicar una mejora.
+ \item La mejora obtenida al aplicar el nuevo modo, esto es, que tan rápido correrá el sistema si se aplica la mejora.
+\end{enumerate}
+
+
+$
+\text{Tiempo de ejecución}_\text{nuevo} = \text{Tiempo de ejecución}_\text{viejo}  \times \left( (1 -  \text{Fraccion}_\text{mejorable} + \frac{\text{Fraccion}_\text{mejorable}}{\text{speedup}_\text{local}} \right)
+$
+
+
+\section{Ecuación del desempeño de CPU}
+
+\[ \text{CPU time} = \text{Instruction count} \times \text{CPI} \times \text{Clock cycle time} \]
+
+\[ \text{CPU time} = \frac{\text{Instruction count} \times \text{CPI}}{ \text{Clock rate}} \]
+
+Se puede ver como estos factores son combinados para indicar el tiempo de ejecución en segundos por programa:
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+   
+\textbf{Componente de performance} & \textbf{Unidad de medida}  \\ \hline
+Tiempo de ejecución de CPU para un programa & Segundos por programa \\ \hline
+Instruction count (Cantidad de instrucciones) & Instrucciones ejecutadas por el programa \\ \hline
+Ciclos de reloj por instrucción (CPI) & Promedio de ciclos de reloj por instrucción \\ \hline
+Tiempo de ciclo de reloj (Clock cycle time) & Segundos por ciclo de reloj \\ \hline
+\end{tabular}
+\end{table}
+
+\[ \text{Time} = \frac{\text{Seconds}}{\text{Program}}= \frac{\text{Instructions}}{\text{Program}} \times \frac{\text{Clock Cycles}}{\text{Instruction}} \times \frac{\text{Seconds}}{\text{Clock Cycles}} \]
+
+La única medida confiable y completa para medir la performance de una computadora es el tiempo. Por ejemplo, al cambiar el set de instrucciones por uno más chico puede llevar a una organización con un tiempo de ciclo de reloj más lento o con un CPI más alto que hace que la mejora en el $I_C$ se vea opacada.
+
+De forma similar y porque el CPI depende del tipo de instrucciones ejecutadas, el código que ejecuta un número menor de instrucciones puede no ser el más rápido.
+
+Es decir, que es muy complicado cambiar un sólo parámetro en forma aislada, dada la interdependencia que existe en cada uno por la tecnología que los involucra.
+
+\begin{itemize}
+\item Clock cycle time. Tecnología del hardware y la organización.
+\item CPI. Organización y la arquitectura del set de instrucciones.
+\item Instruction count. Arquitectura del set de instrucciones y la tecnología del compilador.
+\end{itemize}
+
+
+\section{Medición de desempeño}
+El tiempo es la medida de performance: la computadora que realiza la misma cantidad de tareas en el menor tiempo es la más rápida. El tiempo de ejecución es medido en segundos por programa. Sin embargo, el tiempo puede ser definido de distintas maneras, dependiendo en como lo contamos. La definición más directa de tiempo es llamada tiempo de reloj de pared, tiempo de respuesta o tiempo transcurrido. Estos términos implican el tiempo total en concluir una tarea, incluyendo acceso a disco, accesos a memoria, actividades de I/O, overhead del sistema operativo, etc.
+
+
+\begin{itemize}
+\item CPU execution time o CPU time. El tiempo total que toma la CPU en computar una tarea específica.
+\item user CPU time. El tiempo de CPU que toma el programa en sí.
+\item system CPU time. El tiempo de CPU que toma el sistema operativo realizando tareas para el programa.
+\end{itemize}
+
+Una alternativa a medir tiempo es MIPS (millones de instrucciones por segundo). Para un dado programa, MIPS se calcula:
+
+\[ \text{MIPS} = \frac{\text{Intruction count}}{\text{Execution time} \times 10^6} \]  
+
+Vale destacar que no podemos comparar computadoras con diferentes set de instrucciones usando MIPS, dado que el IC será ciertamente diferente. Además, MIPS varía entre programas ejecutados en la misma computadora, por ejemplo, substituyendo el tiempo de ejecución, se ve la relación entre MIPS, clock rate y CPI:
+
+\[ \text{MIPS} = \frac{\text{Intruction count}}{\frac{\text{Instruction count} \times \text{CPI}}{\text{Clock rate}} \times 10^6} = \frac{\text{Clock rate}}{\text{CPI} \times 10^6} \]
+

@@ -1,0 +1,109 @@
+\chapter{Jerarquía de memoria}
+
+\section{Latencia y ancho de banda}
+El tiempo requerido para resolver un miss en el cache depende de la latencia y del ancho de banda de la memoria.
+
+La latencia determina el tiempo en traer el primer word del bloque y el ancho de banda determina el tiempo en traer el resto del bloque.
+
+\section{Principio de localidad}
+El principio de localidad temporal nos indica que es muy probable requerir el mismo word en el futuro cercano, con lo cual es útil ubicar este bloque de manera tal que sea rápidamente accesible.
+
+Por la localidad espacial también, hay altas probabilidades que otro dato en el bloque se requiera pronto.
+
+\section{Memoria cache}
+Cuando el procesador encuentra el dato requerido en el cache, se llama \textit{cache hit}. Cuando el procesador no lo encuentra, ocurre lo que se conoce como un \textit{cache miss}.
+
+Un miss en el cache es manejado por el hardware y hace que el procesador que utiliza ejecución in-order se frene (stall) hasta que el dato se encuentre disponible.
+
+
+\subsection{¿Dónde se ubica un bloque en el cache?}
+Si un bloque tiene un solo lugar para ubicarse en el cache, el cache se dice que es de mapeo directo, de correspondencia directa o direct mapped (DM). El mapeo se puede calcular:
+
+(Block address) MOD (Number of blocks in cache)
+
+Si un bloque puede ubicarse en cualquier lugar en el cache, el cache se dice que es completamente asociativo o fully associative (FA).
+
+Si un bloque puede ubicarse en conjuntos restrictivos dentro del cache, el cache se dice que es asociativo por conjunto. Un conjunto es un grupo de bloques en el cache. Un bloque primero se mapea a un conjunto y luego ese bloque se puede ubicar en cualquier en cualquier vía para ese conjunto. El conjunto se elije con un bit de selección.
+
+(Block address) MOD (Number of sets in cache)
+
+Si hay n bloques en un conjunto, el cache se llama n-way set associative o de asociativo por conjuntos de n-vías.
+
+
+\[ 2^{\text{index}} = \frac{\text{Cache size}}{\text{Block size} \times \text{Set associativity}} \]
+
+
+\subsection{¿Cómo se encuentra un bloque en el cache?}
+
+En cada frame, el cache tiene un tag que proporciona la dirección del bloque. Este tag se verifica para cada bloque de cache para saber si coincide con la dirección que emite el procesador. Obviamente como la velocidad es crucial, cada bloque del cache se verifica en paralelo.
+
+
+Esta figura muestra que partes conforman una dirección. La primera división es entre la dirección del bloque y el offset. Luego vienen los campos de tag y de index. 
+
+El offset selecciona el dato buscado dentro del bloque, el index selecciona el conjunto, y el tag es comparado para determinar si es un hit.
+
+
+\subsection{¿Qué bloque debe reemplazarse ante un miss?}
+Cuando ocurre un miss, el controlador del cache debe seleccionar el bloque a ser reemplazado con los datos deseados. Una de las ventajas del cache de mapeo directo es que la decisión del hardware es muy simple, de hecho, no hay elección, solo se verifica un bloque si es hit y sino solo ese bloque se puede reemplazar. En la cache completamente asociativa o asociativa por conjuntos, se pueden elegir varios bloques para reemplazarse ante un miss.
+
+\begin{itemize}
+\item Random. Para distribuir uniformemente la carga en el cache, los bloques candidatos a ser reemplazados se seleccionan aleatoriamente.
+\item Least recently used (LRU). Menos recientemente usado. Para reducir la chance de descartar información que se va a requerir pronto, se registran los bloques accedidos.
+\item First in, first out (FIFO). Dado que LRU es muy complejo de calcular, una aproximación para determinar el bloque más antiguo puede ser esta estrategia. 
+\end{itemize}
+
+\subsection{¿Qué ocurre en una escritura?}
+
+Hay dos opciones ante una escritura en el cache:
+
+\begin{itemize}
+\item Write-through. La información es escrita en ambos lados, tanto en el cache como en el sistema más bajo de memoria.
+\item Write-back. La información es escrita únicamente en el cache. El bloque de cache modificado es escrito en los niveles más bajos solo cuando es reemplazado.
+\end{itemize}
+
+Dado que los datos no son necesitados en una escritura hay dos opciones ante un miss de escritura:
+
+
+\begin{itemize}
+\item Write allocate. El bloque es almacenado ante un miss de escritura, seguido de las acciones ante un hit descritas arriba. Esta sería la opción más lógica dado que un miss de escritura se trata igual que un miss de lectura.
+\item No-write allocate. Esta alternativa hace que la cache no se vea afectada ante un miss de escritura, solo se modifica los niveles más bajos de memoria.
+\end{itemize}
+
+Es decir, si es no-write allocate el bloque permanece fuera del cache hasta que se trate de leer, pero en write-allocate por más que el bloque solo se escriba, este quedará en cache.
+
+\subsection{Tasa de desacierto}
+Una forma de medir las ventajas de las distintas organizaciones de cache es la tasa de miss o miss rate. El miss rate es simplemente la relación entre los accesos al cache que resultan en miss y el número total de accesos.
+
+Los misses en el cache se pueden clasificar en tres categorías (clasificación de las tres C):
+
+
+\begin{itemize}
+\item Compulsivos. El primer acceso a un bloque siempre será un miss. Los misses compulsivos son aquellos que ocurrirían incluso si la cache fuese infinita. 
+\item Capacidad. Si la cache no puede contener todos los bloques requeridos durante la ejecución del programa, ocurrirán misses debido al reemplazo de bloques que luego serán requeridos. 
+\item Conflicto. Si la estrategia para ubicar un bloque en el cache no es completamente asociativa, van a a ocurrir conflictos que obligarán a reemplazar un bloque cuando se trae otro y este mapea a la misma ubicación por más que exista lugar disponible en la cache.
+\end{itemize}
+
+
+\subsection{Tiempo promedio de acceso a memoria}
+Ahora podemos considerar el número de ciclos del procesador en el cual esta esperando los accesos a memoria, estos se llaman ciclos de stall.
+
+La performance se puede calcular como el producto entre tiempo de los ciclos de reloj y la suma de los ciclos de procesar que está esperando a la memoria (memory stall cycles):
+
+CPU execution =  (CPU clock cycles + Memory stall cycles) $\times$ Clock cycle time
+
+Esta ecuación asume que los ciclos de CPU incluyen el tiempo de hit en el cache y el procesador está parado durante un miss en el cache.
+
+El numero de ciclos de stall depende de el número de misses y del costo por miss, que llamamos penalidad de miss o miss penalty.
+
+\begin{align*}
+  \text{Memory Stall cycles} &= \text{Number of misses} \times \text{Miss Penalty} \\
+   &= IC \times \frac{\text{Misses}}{\text{Instruction}} \times \text{Miss Penalty}\\
+   &= IC \times \frac{\text{Memory accesses}}{\text{Instruction}} \times \text{Miss rate} \times \text{Miss Penalty}\\
+\end{align*}
+
+\subsection{Cache Performance}
+
+Average memory access time = Hit time + Miss rate $\times$ Miss penalty
+
+Tener en cuenta que el tiempo de acceso promedio a memoria es una medida indirecta de la performance, es mejor que la tasa de miss pero no es de ninguna forma un reemplazo al tiempo de ejecución.
+

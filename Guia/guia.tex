@@ -1,0 +1,150 @@
+\documentclass[a4paper, 10pt, twoside, notitlepage]{report}
+% idioma
+\usepackage[spanish]{babel}
+\usepackage[utf8x]{inputenc}
+% graficos
+\usepackage[pdftex]{graphicx}
+\usepackage{wrapfig}
+
+%\usepackage{listings}
+%\lstset{language=C,basicstyle=\small}
+
+%\usepackage{epic,eepic}
+% estilo
+\usepackage[footnotesize]{caption}
+\usepackage[outer=2cm,inner=4cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{fancyhdr}
+
+\usepackage{color,hyperref}
+\usepackage{enumerate}
+
+\definecolor{black}{rgb}{0.0,0.0,0.0}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=black,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+            
+\usepackage{blindtext}
+\usepackage{listings}
+% matematica
+\usepackage{amsmath} 
+\usepackage{amsfonts} 
+\usepackage{amssymb}
+\usepackage{enumitem}
+
+
+
+ \title{U.B.A. - Facultad de Ingeniería\\\vspace{0.25cm} 66.20 Organización de Computadoras\\Guía de estudio}
+  \author{Práctica jueves}
+ \date{1° Cuatrimestre 2019}
+
+
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+
+\date{}
+
+\begin{document}
+
+\lstset{%
+  basicstyle=\small\ttfamily,
+  breaklines=true,
+  tabsize=2,
+  language=C,
+  extendedchars=true
+}
+
+\lstdefinestyle{6620C}{
+  identifierstyle=\color{blue},
+  commentstyle=\color{mygreen},
+  keywordstyle=\bfseries\color{mymauve},
+  frame=single,
+  breaklines=true
+%  stringstyle=\color{purple}
+}
+
+
+\maketitle
+\thispagestyle{empty}   % quita el número en la primer página
+
+ \newpage
+%\begin{abstract}
+
+%\end{abstract}
+
+ \tableofcontents
+% 
+ \newpage
+% 
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\chaptername}{Unidad}
+%\renewcommand{\footrulewidth}{0.4pt}
+\fancyhead[LE]{\nouppercase \rightmark}
+\fancyhead[RE, LO]{\bf \thepage}
+\fancyhead[RO]{\nouppercase \rightmark}
+\fancyfoot[C]{ }
+\maketitle
+%genera el indice - compilar dos veces
+\setcounter{page}{1}
+% \tableofcontents
+% \newpage
+
+\parskip 7.2pt
+\chapter*{Prólogo}
+\addcontentsline{toc}{chapter}{Prólogo}
+Durante varios cuatrimestres estuvo el interrogante si la deserción temprana y baja concurrencia no se debía a no contar con una guía fija y actualizada de ejercicios que ordene y estructure el curso.
+
+La intención de este apunte es guiar al alumno a atravesar los temas de la materia con un breve resumen que sirve como introducción para luego si, atacar la bibliografía y poder resolver los ejercicios propuestos al final de cada capitulo. 
+
+De ninguna manera se buscó que este apunte actúe como reemplazo de la basta bibliografía ni, menos como una traducción por más somera que sea, si bien muchas veces nos preguntamos que tanta incidencia traía esta barrera idiomática que extiende el material que utilizamos. Esperamos que sirva como motivación a los alumnos y que sirva como herramienta facilitadora para enfrentar esta materia.
+
+\input{Amdahl}
+% \input{./Ejercicios/Amdahl}
+\input{ISA}
+\input{ABI}
+% \input{./Ejercicios/ISA}
+\input{Cache}
+\input{Memoria_Virtual}
+% \input{./Ejercicios/Memoria}
+% \input{./Ejercicios/Memoria2}
+% \input{./Ejercicios/Memoria3}
+\input{Pipeline}
+
+
+\begin{thebibliography}{9}
+
+    \bibitem{caaqa}
+    David Patterson, John Hennessy, \textit{Computer Architecture a Quantitative Approach}, Elsevier, 3rd edition. ISBN: 1-55860-596-7. May 2002.  
+  
+    \bibitem{coadhsi}
+
+    David Patterson, John Hennessy, \textit{Computer Organization and Design, the Hardware/Software Interface},  Elsevier, 3rd edition. ISBN: 1-55860-604-1. Aug. 2004. 
+    
+    \bibitem{vmp1}
+
+    B.L. Jacob and T.N. Mudge, \textit{Virtual Memory: Issues of Implementation}, Computer, Vol. 31, No. 6, June 1998, pp. 33-43.
+
+    \bibitem{vmp2}
+
+    B.L. Jacob and T.N. Mudge, \textit{Virtual Memory in Contemporary Microprocessors}, IEEE Micro, Aug. 1998.
+    
+    \bibitem{mafstocm}
+
+    Jean-Loup Baer, \textit{Microprocessor Architecture. From Simple Pipelines to Chip Multiprocessors}, Cambridge University Press. ISBN-13 978-0-521-76992-1. 2010
+
+
+    \bibitem{mcch}
+    
+    Rajeev Balasubramonian and Norman P. Jouppi and Naveen Muralimanohar, \textit{Multi-Core Cache Hierarchies}, Morgan and Claypool Publishers, 2011.
+    
+    \bibitem{abi}
+    
+    System V Application Binary Interface, MIPS RISC Processor, 3rd Edition, The Santa Cruz Operation, February 1996 (http://www.sco.com/developers/devspecs/mipsabi.pdf).
+\end{thebibliography}
+\end{document}

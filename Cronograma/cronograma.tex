@@ -1,0 +1,109 @@
+\documentclass[9pt,a4paper]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage[table,x11names]{xcolor}
+
+
+
+\begin{document}
+
+Fechas importantes $1^{er}$ cuatrimestre 2019:
+
+\begin{itemize}
+\item Exámen:
+\begin{itemize}
+\item Primer parcial - 23/5
+\item Primer recuperatorio - 13/6
+\item Segundo recuperatorio - 04/7
+\end{itemize}
+\item Trabajos Prácticos:
+\begin{itemize}
+\item Presentación TP0 - 21/3
+\item Entrega TP0 - 04/4
+\item Presentación TP1 - 11/4
+\item Entrega TP1 - 25/4
+\item Presentación TP2 - 30/5
+\item Entrega TP2 - 20/6
+\end{itemize}
+
+\end{itemize}
+
+\begin{tabular}{ |l | l | l | l |}
+\hline
+Semana & Temas			& Lecturas     & Ejercicios						\\
+\hline
+01 - 14/3	& Herramientas, Ley de Amdahl 		& ch.1 \cite{caaqa}	&			\\
+\hline
+02 - 21/3	& Ley de Amdahl, Ecuación de desempeño, MIPS & ch.1 \cite{caaqa}    &	\\
+\hline
+03 - 28/3	& ISA					&		ch.2 \cite{caaqa}	&					\\
+\hline
+04 - 04/4	& Assembly, ABI 	& 		Ap.A \cite{caaqa} \cite{abi} &	\\
+\hline
+05 - 11/4	& Memoria cache	& 	ch.5 \cite{caaqa}	&	\\
+\hline
+\rowcolor{lightgray} 06 - 18/4	& 	& 		&		\\
+\hline
+07 - 25/4	& Memoria cache	& 		ch.5 \cite{caaqa} &	\\
+\hline
+08 - 02/5	& Memoria virtual	&	ch.5 \cite{caaqa} &						\\
+\hline
+09 - 09/5	& Memoria virtual	& 	ch.5 \cite{caaqa} \cite{vmp1} \cite{vmp2} &	\\
+\hline
+10 - 16/5	& Simil parcial	&		&							\\
+\hline
+\rowcolor{green} 11 - 23/5	& Exámen parcial	& 	&								\\
+\hline
+12 - 30/5	& Data path			& 	ch.4 \cite{coadhsi} & \\
+\hline
+13 - 06/6 & Pipeline			& 	&	\\
+\hline
+\rowcolor{green} 14 - 13/6 & $1^{er}$ recup.	&		&							\\
+\hline
+\rowcolor{lightgray} 15 - 20/6	& 			&	&								\\
+\hline
+16 - 27/6 & Pipeline 	&					& \\
+\hline
+\rowcolor{green} 17 - 04/7 & $2^{do}$ recup.			&		& \\
+\hline
+
+\end{tabular}
+
+\renewcommand\refname{Lecturas}
+
+\begin{thebibliography}{9}
+
+    \bibitem{caaqa}
+    David Patterson, John Hennessy, \textit{Computer Architecture a Quantitative Approach}, Elsevier, 3rd edition. ISBN: 1-55860-596-7. May 2002.  
+  
+    \bibitem{coadhsi}
+
+    David Patterson, John Hennessy, \textit{Computer Organization and Design, the Hardware/Software Interface},  Elsevier, 3rd edition. ISBN: 1-55860-604-1. Aug. 2004. 
+    
+    \bibitem{vmp1}
+
+    B.L. Jacob and T.N. Mudge, \textit{Virtual Memory: Issues of Implementation}, Computer, Vol. 31, No. 6, June 1998, pp. 33-43.
+
+    \bibitem{vmp2}
+
+    B.L. Jacob and T.N. Mudge, \textit{Virtual Memory in Contemporary Microprocessors}, IEEE Micro, Aug. 1998.
+    
+    \bibitem{mafstocm}
+
+    Jean-Loup Baer, \textit{Microprocessor Architecture. From Simple Pipelines to Chip Multiprocessors}, Cambridge University Press. ISBN-13 978-0-521-76992-1. 2010
+
+
+    \bibitem{mcch}
+    
+    Rajeev Balasubramonian and Norman P. Jouppi and Naveen Muralimanohar, \textit{Multi-Core Cache Hierarchies}, Morgan and Claypool Publishers, 2011.
+    
+    \bibitem{abi}
+    
+    System V Application Binary Interface, MIPS RISC Processor, 3rd Edition, The Santa Cruz Operation, February 1996 (http://www.sco.com/developers/devspecs/mipsabi.pdf).
+\end{thebibliography}
+
+\end{document}
