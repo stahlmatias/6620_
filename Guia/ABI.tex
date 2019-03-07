@@ -1,9 +1,9 @@
-\section{Architecture Binary Interface}
+\section{Application  Binary Interface}
 Esta sección no pretende ser una descripción completa de la ABI presentada en \cite{abi}, sino un detalle de los puntos que se consideran confusos, más importantes o que varían respecto al documento mencionado.
 
 Esta explicación se basa en \cite{abi} y en las observaciones realizadas sobre código assembly generado con GCC, con nivel de optimización 0 (−O0).
 
-Por lo tanto, se recomienda primero leer la sección “Function Calling Sequence” de \cite{abi}, para luego aclarar y/o modificar con el contenido de este documento.
+Por lo tanto, se recomienda primero leer la sección “Function Calling Sequence” de \cite{abi}, para luego aclarar y/o modificar con el contenido de esta sección.
 
 \subsection{Caller y Callee Saved Registers}
 Los siguientes registros deben ser salvados por la función llamada si ésta los debe modificar:
@@ -22,7 +22,7 @@ El Stack Frame se compone de areas de un tamaño múltiplo de 8 bytes, alineadas
 
 Los registros en un area se almacenan de abajo hacia arriba, en orden según el número de registro.
 
-Las areas son, en orden de aparición (de arriba hacia abajo en memoria):
+Las áreas son, en orden de aparición (de arriba hacia abajo en memoria):
 
 \begin{itemize}
  \item General Register Save Area (obligatoria). Registros salvados:
@@ -39,9 +39,9 @@ Las areas son, en orden de aparición (de arriba hacia abajo en memoria):
  \item Al menos es de 16 bytes, aún cuando los argumentos del callee
 requieren menos.
  \item Cuando los cuatro primeros argumentos son enteros o punteros,
-se pasan en a0 a a3, y el resto se guarda en esta area a partir de
+se pasan en a0 a a3, y el resto se guarda en esta área a partir de
 los primeros 16 bytes.
- \item Los argumentos pasados en a0 a a3 son almacenados en esta area
+ \item Los argumentos pasados en a0 a a3 son almacenados en esta área
 por el callee siempre.
 \end{itemize}
 \end{itemize}
@@ -55,7 +55,7 @@ Local Area\\\hline
 Arg Building Area
 $\leq$ 16 bytes\\\hline
 \end{tabular}
-\caption{Layout genérico del stack frame. Las areas marcadas con (*) son obligatorias.}
+\caption{Layout genérico del stack frame. Las áreas marcadas con (*) son obligatorias.}
 \end{center}
 \end{table}
 
@@ -64,7 +64,7 @@ Debugging: algunas reglas de creación de stack frame existen sólo para
 garantizar que las herramientas de debugging (ej: gdb) puedan puedan
 realizar un stack backtrace (es decir, algunas reglas pueden no seguirse y
 el programa funcionará correctamente, pero no se garantiza un correcto
-analisis post-mortem en caso de que el proceso termine de forma anormal).
+análisis post-mortem en caso de que el proceso termine de forma anormal).
 
 \begin{table}[!h]
 \begin{center}

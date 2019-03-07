@@ -62,6 +62,13 @@ $
 \text{Tiempo de ejecución}_\text{nuevo} = \text{Tiempo de ejecución}_\text{viejo}  \times \left( (1 -  \text{Fraccion}_\text{mejorable} + \frac{\text{Fraccion}_\text{mejorable}}{\text{speedup}_\text{local}} \right)
 $
 
+%\subsection*{Ejemplo}
+%Se considera una mejora para un servidor web. donde ahora el nuevo CPU es 10 veces más rápido que el original. Se asume que la CPU original insume 40\% del tiempo realizando cálculos y el 60\% del tiempo es de espera de I/O. ?`Cuál es el speedup global obtenido al incorporar esta mejora?
+%
+%
+%\subsection*{Ejemplo}
+%Una transformación típica en los motores gráficos es la raíz cuadrada. Las implementaciones para el calculo de la raiz cuadrada en punto flotante hacen variar la performance considerablemente. Suponga que el calculo de la raiz cuadrada de punto flotante insume el 20\% del tiempo de ejecucion de un benchmark para graficos. Una propuesta es mejorar el hardware para calcular la raiz cuadrada (FPSQR) por un factor de 10. Otra alternativa es ejecutar todas las operaciones de punto flotante 1,6 veces mas rapida. Las intrucciones de punto flotante representan el 50\% del total del tiempo de ejecucion. Comparar estas dos alternativas de diseño.
+
 
 \section{Ecuación del desempeño de CPU}
 
@@ -117,4 +124,17 @@ Una alternativa a medir tiempo es MIPS (millones de instrucciones por segundo). 
 Vale destacar que no podemos comparar computadoras con diferentes set de instrucciones usando MIPS, dado que el IC será ciertamente diferente. Además, MIPS varía entre programas ejecutados en la misma computadora, por ejemplo, substituyendo el tiempo de ejecución, se ve la relación entre MIPS, clock rate y CPI:
 
 \[ \text{MIPS} = \frac{\text{Intruction count}}{\frac{\text{Instruction count} \times \text{CPI}}{\text{Clock rate}} \times 10^6} = \frac{\text{Clock rate}}{\text{CPI} \times 10^6} \]
+
+
+%\subsection*{Ejemplo}
+%Suponga que se tienen las siguientes mediciones:
+%\begin{itemize}
+%\item Frecuencia de las operaciones de punto flotante (otras que FPSQR) = 25\% 
+%\item CPI promedio de las operaciones de FP = 4.0
+%\item Frecuencia de FPSQR= 2\%
+%\item CPI de FPSQR = 20
+%\end{itemize}
+%
+%Se proponen dos alternativas de diseño, una decrementar el CPI de FPSQR a 2 o decrementar el CPI de todas las operaciones de FP a 2.5. Comparar estas dos alternativas utilizando la ecuación de desempeño.
+
 

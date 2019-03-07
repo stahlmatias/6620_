@@ -1,6 +1,10 @@
 \chapter{Arquitectura de programación}
 El término arquitectura del conjunto de instrucciones (instruction set architecture) (ISA) se refiere al conjunto de instrucciones visibles al programador. Funciona como la frontera entre el software y el hardware.
 
+\begin{center}
+ \includegraphics[scale=.6,keepaspectratio=true]{gfx/ISA.png}
+\end{center}
+
 
 \section{Modelo de pila}
 Los operandos en una arquitectura de stack están implícitamente en el tope del stack y el hardware debe evaluar la expresión en un solo orden y cargar un operando múltiples veces.
@@ -17,11 +21,9 @@ Los operandos explícitos podrían ser accedidos directamente de memoria o neces
 
 
 \section{Modelo de carga y almacenamiento}
-
 En este tipo de arquitectura, la memoria solo puede ser accedida a través de instrucciones de carga y almacenamiento (load/store). 
 
 \subsection{Conjunto de instrucciones RISC}
-
 Las arquitecturas RISC se caracterizan por tener ciertas propiedades que simplifican su implementación.
 
 \begin{itemize}
@@ -44,5 +46,46 @@ Hay tres tipos de instrucciones:
 El destino del branch se obtiene sumando un offset con extensión de signo (16 bits) al valor actual del PC.
 \end{enumerate}
 
+\begin{center}
+ \includegraphics[scale=.65,keepaspectratio=true]{gfx/tipos_instruccion.png}[h!]
+\end{center}
+
+\subsection{Direccionamiento de memoria}
+Independientemente de la arquitectura, si es load-store o una que permita a cualquier operación tener una referencia a memoria, se debe definir como son interpretadas las direcciones de memoria y como se especifican.
+
+Todo el conjunto de instrucciones es direccionado por bytes y se provee acceso por bytes (8 bits), mitad de palabra (half words) (16 bits), por palabra (words) (32 bits).
+
+Hay dos convenciones para ordenar los bytes en un objeto. \textbf{Little Endian} coloca el byte cuya dirección "x . . . x000” en la posición menos significativa. Los bytes entonces son numerados:
+
+\begin{center}
+ \includegraphics[scale=.7,keepaspectratio=true]{gfx/little_endian.png}[h!]
+\end{center}
+
+
+El orden \textbf{Big Endian} coloca el byte cuya dirección es “x . . . x000”  en la posición más significativa. Los bytes entonces son numerados:
+
+\begin{center}
+ \includegraphics[scale=.7,keepaspectratio=true]{gfx/big_endian.png}[h!]
+\end{center}
+
+El orden de los bytes es un problema cuando se intercambia datos entre computadoras con diferentes ordenamientos. Por ejemplo cuando se comparan strings, en Little Endian aparece “SDRAWKCAB” (backwards) en los registros.
+
+
+\subsection{Registros} 
+MIPS64 tiene 32 registros de propósito general de 64-bit (GPRs) llamados R0, R1,..., R31. 
+Además tiene 32 registros de punto flotante, F0, F1,..., F31, que pueden almacenar 32 valores de simple precisión o 32 valores de doble precisión (64-bit). Cuando se almacena un valor de precisión simple, la otra mitad del registro no se utiliza. 
+
+El valor del registro R0 es siempre cero.
+
+
+\subsection{Tipo de datos}
+Los tipo de datos son bytes de 8-bit, half words de 16-bit, words de 32-bit y double words de 64-bit para enteros y datos de 32-bit de precisión simple y 64-bit de doble precisión para punto flotante.
+
+
+\subsection{Operaciones}
+Las operaciones en MIPS64 trabajan en enteros de 64-bit o punto flotante de 32 o 64-bit. Bytes, half words, y words son cargados en los registros de propósito general con ceros o con el bit de signo para llenar los 64 bits.
+
+
 \subsection{Modos de direccionamiento}
-\subsection{Formato de instrucciones}
+Los únicos modos de direccionamiento son inmediato o por desplazamiento, ambos con campos de 16-bit. Por registro indirecto se logra al ubicar 0 en los 16-bit del campo de desplazamiento y direccionamiento absoluto se logra al usar el registro cero como registro base.
+
