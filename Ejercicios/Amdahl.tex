@@ -65,26 +65,61 @@ Responder considerando que el benchmark puede estar conformado por
     \item Instrucciones de punto flotante y enteras.
 \end{itemize}
 
-\subsection{}
-El siguiente es el algoritmo de Booth, utilizado para realizar multiplicaciones binarias de X * Y utilizando sumas, restas y desplazamientos a derecha:
+\subsection{[1.2 $3^{ed}$ CAAQA]}
+Se considera realizar una mejora a una máquina agregando hardware vectorial. Cuando un cálculo de modo vectorial se ejecuta en este hardware, este se realiza 10 veces más rápido que en modo de ejecución normal. Llamamos al porcentaje de tiempo que se puede utilizar este modo vectorial como porcentaje de vectorización.
 
-   \begin{enumerate}
-    \item \begin{math} A=0, Q=X, Q_{-1}=0, M=Y \end{math}
-    \item For I = 1 to n do
-          \begin{enumerate}
-           \item \begin{math} if\; Q_{0}Q_{-1} = 01\; then\; A=A + M \end{math}
-	   \item \begin{math} if\; Q_{0}Q_{-1} = 10\; then\; A=A - M \end{math}
-           \item \begin{math} Arithmetic\; Right\; Shift\; (A || Q)\end{math}
-           \end{enumerate}
-   \end{enumerate}
-   La respuesta es almacenada en la combinación de  \begin{math}(A || Q)\end{math}
+\begin{enumerate}
+ \item Realizar un gráfico que represente el speedup en función del como porcentaje de vectorización. Nombrar al \textit{eje y} como Speedup Global y al \textit{eje x} como Porcentaje de Vectorización.
+ 
+ \item ¿Qué porcentaje de vectorización en necesaria para alcanzar un speedup global de 2?
+ 
+ \item ¿Qué porcentaje de tiempo se emplea en modo vectorización cuando se alcanza un speedup global de 2?
+ 
+ \item ¿Qué porcentaje de vectorización es necesaria para alcanzar la mitad del máximo speedup posible al usar el modo de vectorización?
+ 
+ \item Ahora suponga que se realizó una medición y se determinó que el porcentaje de vectorización para ciertos programas es del 70\%. El grupo de diseño de hardware dice que pueden duplicar el speedup del hardware de vectorización pero con una inversión significante en lo que respecta. Entonces nos preguntamos si el equipo de compiladores podrían incrementar el uso del modo vectorizado (relativo al uso actual) para lograr la misma performance obtenida al aumentar al doble el speedup por hardware. ¿Qué inversión recomendaría?  
+\end{enumerate}
 
-   El 5\% de todas las instrucciones de un \textit{benchmark} son multiplicaciones binarias de 32 bits (sin ocurrir otras multiplicaciones).
-   Asumir que cada instrucción (línea) en el algoritmo toma 1 ciclo de reloj (incluyendo el for y cada if).
-   
-   Asumir que la máquina que realiza la multiplicación binaria utilizando el hardware dedicado tiene un CPI de 15.
 
-   \begin{enumerate}[label=\alph*)]
-    \item ¿Cuánto más rápida debe ser la máquina con una unidad de multiplicación por hardware que otra máquina que debe realizar la multiplicación utilizando el algoritmo de Boot?
-   \end{enumerate}
+\subsection{[1.3 $3^{ed}$ CAAQA]}
+Se realiza una mejora a una computadora a un dado modo de ejecución por un factor de 10. Esta mejora es utilizada el 50\% del tiempo, medido como un porcentaje del tiempo de ejecución cuando la mejora está siendo utilizada. Recordar que no se puede aplicar directamente este 50\% en la Ley de Amdahl para para calcular el speedup.
+
+\begin{enumerate}
+ \item ¿Cuál es el speedup global que se alcanza con esta mejora?
+ \item ¿Qué porcentaje del tiempo original es empleada esta mejora?
+\end{enumerate}
+
+
+\subsection{[1.6 $3^{ed}$ CAAQA]}
+Un benchmark muy conocido para enteros es Dhrystone. La computadora A realiza D A ejecuciones del benchmark por segundo y realiza millones de instrucciones por segundo (MIPS A). En la computadora B se ejecuta el mismo benchmark obteniendo sus propias métricas.
+
+\begin{enumerate}
+ \item ¿Cuál es el problema en calcular la tasa de MIPS de la computadora B como $MIPS_B = MIPS_A \times (D_B / D_A )$?
+\end{enumerate}
+
+
+
+\subsection{[1.17 $3^{ed}$ CAAQA]}
+Una empresa tiene un benchmark que es considerado representativo para sus aplicaciones típicas. Se está considerando un procesador embebido para realizar las tareas pero no cuenta con una unidad de punto flotante y se deben emular por una secuencia de instrucciones de enteros. Este procesador tiene una tasa de 120 MIPS en el benchmark.
+
+Un vendedor ofrece un coprocesador para mejorar la performance. Este coprocesador ejecuta cada instrucción de punto flotante por hardware. Cuando se combina el procesador y el coprocesador resulta una tasa de MIPS de 80 en el mismo benchmark.
+
+Sea:
+
+\begin{itemize}
+ \item I: Número de instrucciones de enteros ejecutadas en el benchmark.
+ \item F: Número de instrucciones de punto flotante ejecutadas en el benchmark.
+ \item Y: Número de instrucciones de entero para emular las instrucciones de punto flotante.
+ \item W: Tiempo de ejecución del benchmark en el procesador solo.
+ \item B: Tiempo de ejecución del benchmark en la combinación procesador/coprocesador.
+\end{itemize}
+
+\begin{enumerate}
+ \item Escribir una expresión para calcular la tasa de MIPS en cada configuración utilizando los símbolos anteriores.
+ \item Para la configuración sin coprocesador, se obtuvo $F = 8 \times 10^6$, $Y = 50$ y $W = 4$ segundos. Determinar I.
+ \item ¿Cuál es el valor de B?
+ \item ¿Cuál es la tasa de MFLOPS para el sistema con coprocesador?
+ \item Un colega quiere comprar el coprocesador a pesar que tiene una tasa de MIPS inferior cuando se lo utiliza en comparación con el procesador sólo. ¿Tiene razón? Justificar la respuesta.
+\end{enumerate}
+
 
