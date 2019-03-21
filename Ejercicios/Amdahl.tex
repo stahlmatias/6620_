@@ -1,9 +1,9 @@
 \newcommand{\SU}{\textit{Speed Up }}
+\newcommand*{\threeemdash}{\rule[0.5ex]{3em}{0.55pt}}
 \section{Principios fundamentales}
 
 \subsection{Ejercicio resuelto: [1.2 $3^{ed}$ CAAQA]}
 Se considera realizar una mejora a una máquina agregando hardware vectorial. Cuando un cálculo de modo vectorial se ejecuta en este hardware, este se realiza 10 veces más rápido que en modo de ejecución normal. Llamamos al porcentaje de tiempo que se puede utilizar este modo vectorial como porcentaje de vectorización.
-
 
 
 Antes de resolver el ejercicio, planteamos el escenario mediante un diagrama:
@@ -58,13 +58,16 @@ Antes de resolver el ejercicio, planteamos el escenario mediante un diagrama:
 
  \includegraphics[scale=0.5]{gfx/amdahl_resuelto_1.png}
  
+ \threeemdash
+
  \item ¿Qué porcentaje de vectorización en necesaria para alcanzar un \SU global de 2?
 
  Utilizando la ley de Amdahl podemos despejar $f$
 
  $$ 2 = \frac{1}{1 - 0,9 \times f}$$
- $$ f  = \sfrac{5}{9} $$
+ $$ f  = \frac{5}{9} $$
  
+ \threeemdash
  \item ¿Qué porcentaje de tiempo se emplea en modo vectorización cuando se alcanza un \SU global de 2?
 
  Es importante entender que esta pregunta no es igual a la anterior. El escenario para este punto nos plantea en el momento en el que 
@@ -72,19 +75,22 @@ Antes de resolver el ejercicio, planteamos el escenario mediante un diagrama:
 
  Partiendo de la definición de Speed Up, tenemos que 
 
- $$ SU_g = \frac{T_O}{T_N} = 2 \implies f = \sfrac{5}{9} $$
+ $$ SU_g = \frac{T_O}{T_N} = 2 \implies f = \frac{5}{9} $$
 
- $$ SU_L = \frac{T_m}{T'_m} = 10,\quad siendo \quad T_m = T_O \times f = \sfrac{5}{9}T_O $$
+ $$ SU_L = \frac{T_m}{T'_m} = 10,\quad siendo \quad T_m = T_O \times f = \frac{5}{9}T_O $$
 
- El ejercicio nos pide calcular $ f' = \sfrac{T'_m}{T_N} $. Reemplazando se puede determinar que
+ También es importante notar que $ T'_{nm} = T_{nm} = \frac{4}{9} \times T_O $, ya que el tiempo de ejecución de la parte del 
+ programa en la que no se aplica ninguna optimización no cambia.
  
- $$ T'_{nm} = T_{nm} = \sfrac{4}{9} \times T_O $$
+ El ejercicio nos pide calcular $ f' = \sfrac{T'_m}{T_N} $. Se puede determinar que
+ 
  $$ T'_m =  \sfrac{T_m}{10} $$ 
  $$ T_N = T'_{m} + T'_{nm} $$
  $$ T_{nm} = T'_{nm} $$ 
  
- $ f' = \frac{\frac{5}{90}}{\frac{5}{90} + \frac{4}{9}} $
+ $$ f' = \frac{\frac{5}{90}}{\frac{5}{90} + \frac{4}{9}} $$
  
+ \threeemdash
  \item ¿Qué porcentaje de vectorización es necesaria para alcanzar la mitad del máximo \SU posible al usar el modo de vectorización?
 
  A partir de la Ley de Amdahl y el análisis realizado en el primer punto sabemos qué $SU_{max} = 10$, por lo que solo resta resolver
@@ -92,6 +98,7 @@ Antes de resolver el ejercicio, planteamos el escenario mediante un diagrama:
  $$ \frac{1}{5} = 1 - 0,9 \times f $$
  $$ f = \frac{8}{9} $$ 
  
+ \threeemdash
  \item Ahora suponga que se realizó una medición y se determinó que el porcentaje de vectorización para ciertos programas es del 70\%. El grupo de diseño de hardware dice que pueden duplicar el \SU del hardware de vectorización pero con una inversión significante en lo que respecta. Entonces nos preguntamos si el equipo de compiladores podrían incrementar el uso del modo vectorizado (relativo al uso actual) para lograr la misma performance obtenida al aumentar al doble el \SU por hardware. ¿Qué inversión recomendaría?  
 
 \end{enumerate}
@@ -100,10 +107,10 @@ Antes de resolver el ejercicio, planteamos el escenario mediante un diagrama:
 \subsection{}
 Demostrar que 
 
-						 $$ SU = \frac {1} {(1-f) + \frac {f}{SU_l}} $$
+						 $$ SU = \frac {1} {(1-f) + \frac {f}{SU_L}} $$
 
 
-Donde $f$ es la fracción de tiempo a mejorar, y $SU_l$ es la mejora local.
+Donde $f$ es la fracción de tiempo a mejorar, y $SU_L$ es la mejora local.
 
 \subsection{}
 
