@@ -4,19 +4,57 @@
 \subsection{Ejercicio resuelto: [1.2 $3^{ed}$ CAAQA]}
 Se considera realizar una mejora a una máquina agregando hardware vectorial. Cuando un cálculo de modo vectorial se ejecuta en este hardware, este se realiza 10 veces más rápido que en modo de ejecución normal. Llamamos al porcentaje de tiempo que se puede utilizar este modo vectorial como porcentaje de vectorización.
 
+
+
+Antes de resolver el ejercicio, planteamos el escenario mediante un diagrama:
+
+%TODO Usar un include
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Shape: Rectangle [id:dp41842097652442645]
+\draw   (39.5,21) -- (305.5,21) -- (305.5,61) -- (39.5,61) -- cycle ;
+%Shape: Rectangle [id:dp8871764374832227]
+\draw   (40.5,129) -- (304.5,129) -- (304.5,171) -- (40.5,171) -- cycle ;
+%Shape: Rectangle [id:dp9269566177848496]
+\draw   (305.5,21) -- (623.5,21) -- (623.5,61) -- (305.5,61) -- cycle ;
+%Shape: Rectangle [id:dp3092576452949021]
+\draw   (304.5,129) -- (380.5,129) -- (380.5,171) -- (304.5,171) -- cycle ;
+%Straight Lines [id:da06697919884510961]
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (305.5,61) -- (304.5,129) ;
+
+
+%Straight Lines [id:da4571003142911374]
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (623.5,61) -- (380.5,129) ;
+
+% Text Node
+\draw (21,41) node  [align=left] {$\displaystyle T_{O}$};
+% Text Node
+\draw (19,147) node  [align=left] {$\displaystyle T_{N}$};
+% Text Node
+\draw (424,42) node  [align=left] {$\displaystyle T_{M}$};
+% Text Node
+\draw (341.5,150) node  [align=left] {$\displaystyle T'_{M}$};
+% Text Node
+\draw (120,145) node  [align=left] {$ $};
+% Text Node
+\draw (151.5,150) node  [align=left] {$\displaystyle T'_{nm}$};
+% Text Node
+\draw (150.5,41) node  [align=left] {$\displaystyle T_{nm}$};
+
+\end{tikzpicture}
+
 \begin{enumerate}
  \item Realizar un gráfico que represente el \SU en función del como porcentaje de vectorización. Nombrar al \textit{eje y} como \SU Global ($SU_g$) y al \textit{eje x} como Porcentaje de Vectorización.
 
  Partiendo de la Ley de Amdahl, así como los datos del enunciado, tenemos que $$ SU_g = \frac{1}{(1-f) + \frac{f}{10}} = \frac{1}{1 - 0,9 \times f}$$
-
  Sabemos también que $ f \in [0, 1] $. Podemos calcular el valor de \SU en los extremos:
-
  \begin{itemize}
  \item Si no es posible aplicar la mejora, $f = 0 \implies SU_g = 1$
  \item Si la mejora es aplicable a todo el tiempo de ejecución, $ f = 1 \implies SU_g = SU_L = 10 $
  \end{itemize}
-
- Tomando valores de $f$ podemos graficar la curva.
 
  \includegraphics[scale=0.5]{gfx/amdahl_resuelto_1.png}
  
