@@ -3,6 +3,15 @@
 \usepackage[utf8]{inputenc}
 \usetheme{default}
 
+\usepackage{listings}
+\lstset{
+basicstyle=\small\ttfamily,
+columns=flexible,
+breaklines=true
+}
+
+\usepackage{multicol}
+
  \title[66.20/86.37]{U.B.A. - Facultad de Ingeniería\\\vspace{0.25cm} 66.20/86.37 Organización de Computadoras
   \\Introducción}
   \author{Práctica jueves}
@@ -47,16 +56,252 @@
  \frametitle{Herramientas}
  \begin{itemize}
   \item  Compilador: GCC
+  \item Sistema de documentación: \LaTeX
   \item Emulador: QEMU
   \item Sistema de emulación gráfica MIPS: DrMIPS
   \item Sistema operativo host: Ubuntu 18.04.2 LTS 
   \item Sistema operativo guest: Debian 4.9.130-2 (2018-10-27) mips
-  \item Sistema de documentación: \LaTeX
  \end{itemize}
  \end{frame}
  
+ \begin{frame}
+ \frametitle{Herramientas: GCC}
+ \begin{itemize} 
+    \item Compilador C (entre otros)
+    \item Gratuito y open source
+    \item Soporta múltiples arquitecturas (inclusive MIPS)
+    \item Genera código assembly
+  \end{itemize}
+ \end{frame}
+ 
+\begin{frame}[fragile]
+ \frametitle{Herramientas: GCC}
+ Supongamos que myprog.c es el código
+fuente en C a compilar:
+\begin{verbatim}
+$ gcc -Wall -o myexec myprog.c
+\end{verbatim}
+
+Donde:
+\begin{itemize}
+ \item -Wall: activa todos los mensajes de warning
+\item -o: archivo de salida (en este caso, myexec)
+\end{itemize}
+ \end{frame}
+  
+ 
+\begin{frame}[fragile]
+ \frametitle{Herramientas: GCC}
+Para detener al compilador justo
+después de generar el código assembly:
+\begin{verbatim}
+$ gcc -Wall -O0 -S  myprog.c
+\end{verbatim}
+
+Donde:
+\begin{itemize}
+ \item -S: detiene al compilador luego de generar el assembly
+\item -O0: No aplica optimizaciones
+\end{itemize}
+
+Esto genera el archivo myprog.s con el assembly
+que gcc genera para myprog.c
+ \end{frame}
+  
+
+ \begin{frame}
+ \frametitle{Herramientas: \LaTeX}
+ \begin{itemize} 
+    \item Permite concentrarse en el contenido
+del documento en lugar de la forma del
+mismo
+    \item Formato abierto y de texto (se pueden
+mantener los documentos con CVS o GIT)
+    \item Resultados muy profesionales
+    \item Templates tipo “paper”
+  \end{itemize}
+
+  Documentación
+  \begin{itemize}
+   \item “The Not So Short Introduction To LaTeX”
+  \end{itemize}
+  \url{http://tug.ctan.org/tex-archive/info/lshort/english/lshort.pdf}
+ \end{frame}
  
   \begin{frame}
+ \frametitle{Herramientas: QEMU}
+Es un proyecto open source que permite emular un procesador completo incluyendo MIPS.
+
+\url{https://www.qemu.org/}
+  \end{frame}
+
+  \begin{frame}[fragile]
+ \frametitle{Herramientas: QEMU - Preparación del entorno}
+Este entorno se prepará bajo el sistema operativo host Ubuntu 18.04.2 LTS
+
+ \begin{itemize}
+  \item Instalar QEMU
+  \begin{verbatim}
+   $ sudo apt-get install qemu-system-mips
+  \end{verbatim}
+\item Descargar Debian para MIPS-32 (Big Endian) \textbf{Malta}
+\begin{lstlisting}
+ $ wget http://ftp.debian.org/debian/dists/stable/main/installer-mips/current/images/malta/netboot/initrd.gz
+\end{lstlisting}
+
+\begin{lstlisting}
+ $ wget http://ftp.debian.org/debian/dists/stable/main/installer-mips/current/images/malta/netboot/vmlinux-4.9.0-8-4kc-malta
+\end{lstlisting}
+\end{itemize}
+  \end{frame}
+  
+ \begin{frame}[fragile]
+ \frametitle{Herramientas: QEMU - Preparación del entorno}
+ \begin{itemize}
+  \item Crear un archivo imagen en QEMU
+\begin{lstlisting}
+ $ qemu-img create -f qcow2 hda.img 2G
+\end{lstlisting}
+\item Instalar Debian MIPS
+\begin{lstlisting}
+ $ qemu-system-mips -M malta -m 256 -hda hda.img \
+ -kernel vmlinux-4.9.0-8-4kc-malta -initrd initrd.gz \
+ -append "console=ttyS0 nokaslr" -nographic
+\end{lstlisting}
+\item Instalar el servidor SSH
+
+En las opciones del instalador de Debian tildar la opción SSH Server
+\end{itemize}
+  \end{frame}
+
+ \begin{frame}[fragile]
+ \frametitle{Herramientas: QEMU - Preparación del entorno}
+ \begin{itemize}
+  \item Finalizar la instalación de Debian MIPS
+  
+  En la pantalla de instalación seleccionar \texttt{Go Back} Luego seleccionar la opción \texttt{Execute Shell} y tipear el comando \textbf{poweroff}
+  
+ \item Copiar la imagen del Kernel
+\begin{lstlisting} 
+  $ sudo modprobe nbd max_part=63
+  $ sudo qemu-nbd -c /dev/nbd0 hda.img 
+  $ sudo mount /dev/nbd0p1 /mnt
+  $ cp -r /mnt/boot/initrd.img-4.9.0-8-4kc-malta .
+  $ sudo umount /mnt 
+  $ sudo qemu-nbd -d /dev/nbd0
+\end{lstlisting}
+
+\end{itemize}
+  \end{frame}
+
+  \begin{frame}[fragile]
+ \frametitle{Herramientas: QEMU - Preparación del entorno} 
+ \begin{itemize}
+  \item Ejecutar la imagen
+\begin{lstlisting}
+ $ qemu-system-mips -M malta   -m 256 -hda hda.img \
+ -kernel vmlinux-4.9.0-8-4kc-malta  \
+ -initrd initrd.img-4.9.0-8-4kc-malta  \
+ -append "root=/dev/sda1 console=ttyS0 nokaslr" \
+ -nographic  -device e1000-82545em,netdev=user.0 \
+ -netdev user,id=user.0,hostfwd=tcp::5555-:22
+\end{lstlisting}
+\item Para acceder a la máquina guest desde el host
+\begin{lstlisting}
+$ ssh root@localhost -p 5555
+\end{lstlisting}
+
+\item Copiar archivos
+\begin{lstlisting}
+$ scp -P 5555 file.txt root@localhost:/tmp
+\end{lstlisting}
+
+\end{itemize}
+  \end{frame}
+  
+    \begin{frame}[fragile]
+ \frametitle{Herramientas: QEMU - Preparación del entorno} 
+\begin{figure}[h!]
+ \centering
+ \includegraphics[scale=.4,keepaspectratio=true]{./gfx/DebianMips.png}
+ % DebianMips.png: 734x488 px, 72dpi, 25.89x17.22 cm, bb=0 0 734 488
+\end{figure} 
+  \end{frame}
+
+  \begin{frame}[fragile]
+ \frametitle{Herramientas: QEMU - Hola mundo} 
+
+\begin{lstlisting}
+include <unistd.h>
+extern size_t mystrlen(const char *);
+
+int main(int argc, char * const argv[]){
+        char *msg = "Hola mundo.\n";
+        write(1, msg, mystrlen(msg));
+        return 0;
+}
+
+\end{lstlisting}
+\end{frame}
+
+  \begin{frame}[fragile]
+ \frametitle{Herramientas: QEMU - Hola mundo} 
+\begin{multicols}{2}
+\begin{lstlisting}
+#include <sys/regdef.h>
+
+.text
+.align 2
+.globl mystrlen
+.ent mystrlen
+
+mystrlen:
+.frame fp, 16, ra
+.set noreorder
+.cpload t9
+.set reorder
+
+subu sp, sp, 16
+.cprestore 0
+
+
+\end{lstlisting}
+
+\columnbreak
+\begin{lstlisting}
+sw fp, 4(sp)
+move fp, sp
+li v0, 0
+
+mystrlen_loop:
+lb t0, 0(a0)
+beqz t0, mystrlen_return
+addiu a0, a0, 1
+addiu v0, v0, 1
+j mystrlen_loop
+
+mystrlen_return:
+lw fp, 4(sp)
+addu sp, sp, 16
+j ra
+.end mystrlen
+\end{lstlisting}
+\end{multicols}
+\end{frame}
+
+  \begin{frame}[fragile]
+ \frametitle{Herramientas: QEMU - Hola mundo} 
+
+\begin{lstlisting}
+# gcc -Wall -g -o holamundo holamundo.c mystrlen.S 
+# ./holamundo 
+Hola mundo.
+# 
+\end{lstlisting}
+\end{frame}
+
+  
+   \begin{frame}
  \frametitle{Links}
  \begin{itemize}
 \item Grupo Yahoo \\ \url{https://groups.yahoo.com/neo/groups/orga6620}
@@ -83,6 +328,8 @@
  \frametitle{Bibliografía}
  \begin{itemize}
 
+ \item Ulrich Dreper, \textit{What every programmer should know about memory
+ }
 \item Jean-Loup Baer, \textit{Microprocessor Architecture. From Simple Pipelines to Chip Multiprocessors}, Cambridge University Press. ISBN-13 978-0-521-76992-1. 2010
 
 \item Rajeev Balasubramonian and Norman P. Jouppi and Naveen Muralimanohar, \textit{Multi-Core Cache Hierarchies}, Morgan and Claypool Publishers, 2011.
