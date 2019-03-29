@@ -143,35 +143,35 @@
             \end{enumerate}
             
 \subsection{[2.6 $3^{ed}$ CAAQA]}
-Varios investigadores han sugerido que incorporar un modo de direccionamiento registro-memoria a una máquina load/store puede ser conveniente. La idea es reemplazar la siguiente secuencia
+Varios investigadores han sugerido que incorporar un modo de direccionamiento registro-memoria a una máquina \textit{Load/Store} puede ser conveniente. La idea es reemplazar la siguiente secuencia
 
 \begin{verbatim}
-LOAD    R1, 0(Rb)
-ADD     R2, R2, R1
+        LOAD    R1, 0(Rb)
+        ADD     R2, R2, R1
 \end{verbatim}
 
 por
 
 \begin{verbatim}
-ADD R2, O(Rb) 
+        ADD R2, O(Rb) 
 \end{verbatim}
 
 
 
-Asumir que la nueva intrucción provoca un incremento en el ciclo de clock del 5\%. Utilizar la frecuencia de intrucciones del Cuadro \ref{fig::232}. La nueva intrucción afecta únicamente al ciclo de clock y no al CPI.
+Asumir que la nueva intrucción provoca un incremento en el ciclo de clock del $5\%$. Utilizar la frecuencia de intrucciones del Cuadro \ref{fig::232}. La nueva instrucción afecta únicamente al ciclo de clock y \underline{no al CPI}.
 
 \begin{enumerate}
- \item ¿Qué porcentaje de loads deben ser eliminados en la máquina con la nueva instrucción para tener al menos el mismo rendimiento?
- \item Mostrar una secuencia de intrucciones donde un load de R1 seguido inmediatamente por el uso de R1 (con algún tipo de opcode) no podría ser reemplazado por una única instrucción como la propuesta, asumir que el mismo opcode existe.
+\item ¿Qué porcentaje de loads deben ser eliminados en la máquina con la nueva instrucción para tener al menos el mismo rendimiento?
+\item Mostrar una secuencia de intrucciones donde un load de R1 seguido inmediatamente por el uso de R1 (con algún tipo de opcode) no podría ser reemplazado por una única instrucción como la propuesta, asumir que el mismo opcode existe.  
 \end{enumerate}
 
 \subsection{[2.8 $3^{ed}$ CAAQA]}
 
 Para el siguiente código C:
 \begin{verbatim}
-for (i=0; i<=100; i++){
-	A[i] = B[i] + C;
-}
+       for (i=0; i<=100; i++){
+           A[i] = B[i] + C;
+       }
 \end{verbatim}
 
 
@@ -248,18 +248,18 @@ El diseño de MIPS brinda 32 registros de propósito general y 32 registros de p
 
 \subsection{}
   Codificar en Assembly MIPS y diagramar el stack de la siguiente función.
-		\begin{small}
-			\begin{lstlisting}[style=6620C]
-				unsigned int
-				factorial (unsigned int n)
-				{
-				    if (n < 2)
-				        return 1;
-				    else 
-				        return n*factorial(n-1);
-				}
-			\end{lstlisting}
-		\end{small}
+        \begin{small}
+            \begin{lstlisting}[style=6620C]
+                unsigned int
+                factorial (unsigned int n)
+                {
+                    if (n < 2)
+                        return 1;
+                    else 
+                        return n*factorial(n-1);
+                }
+            \end{lstlisting}
+        \end{small}
 
 \subsection{}
   Codificar en C  y Assembly MIPS una función que reciba calcule la longitud de un C-string\\
