@@ -137,7 +137,7 @@ Es un proyecto open source que permite emular un procesador completo incluyendo 
 
   \begin{frame}[fragile]
  \frametitle{Herramientas: QEMU - Preparación del entorno}
-Este entorno se prepará bajo el sistema operativo host Ubuntu 18.04.2 LTS
+Este entorno se prepará bajo el sistema operativo \textbf{host} Ubuntu 18.04.2 LTS. La única interacción con el sistema \textbf{guest} es durante la instación de Debian MIPS.
 
  \begin{itemize}
   \item Instalar QEMU
@@ -181,7 +181,7 @@ En las opciones del instalador de Debian tildar la opción SSH Server
   
   En la pantalla de instalación seleccionar \texttt{Go Back} Luego seleccionar la opción \texttt{Execute Shell} y tipear el comando \textbf{poweroff}
   
- \item Copiar la imagen del Kernel
+ \item Copiar la imagen del Kernel (ejecutados en el \textbf{host})
 \begin{lstlisting} 
   $ sudo modprobe nbd max_part=63
   $ sudo qemu-nbd -c /dev/nbd0 hda.img 
@@ -228,9 +228,24 @@ $ scp -P 5555 file.txt root@localhost:/tmp
 \end{figure} 
   \end{frame}
 
+    \begin{frame}[fragile]
+ \frametitle{Herramientas: QEMU - Automatizando el despliegue} 
+Se proporcionan dos scripts en bash para desplegar el entorno.
+\begin{itemize}
+ \item install\_env.sh
+ 
+ Instala en caso de ser necesario \texttt{wget} y \texttt{qemu-system-mips}. Descarga Debian MIPS. Ejecuta el instalador de Debian, este proceso es manual, se tienen que seguir los pasos presentados en pantalla. Una vez finalizada la instalación seleccionar \texttt{Go Back}. Luego seleccionar la opción \texttt{Execute Shell} y tipear el comando \textbf{poweroff}.
+ \item exec\_env.sh
+ 
+ Ejecuta Debian MIPS dentro de QEMU. 
+ 
+\end{itemize}
+
+  \end{frame}  
+  
   \begin{frame}[fragile]
  \frametitle{Herramientas: QEMU - Hola mundo} 
-
+\textbf{holamundo.c}
 \begin{lstlisting}
 include <unistd.h>
 extern size_t mystrlen(const char *);
@@ -245,7 +260,9 @@ int main(int argc, char * const argv[]){
 \end{frame}
 
   \begin{frame}[fragile]
- \frametitle{Herramientas: QEMU - Hola mundo} 
+ \frametitle{Herramientas: QEMU - Hola mundo}
+ \textbf{mystrlen.S}
+
 \begin{multicols}{2}
 \begin{lstlisting}
 #include <sys/regdef.h>
@@ -291,6 +308,7 @@ j ra
 
   \begin{frame}[fragile]
  \frametitle{Herramientas: QEMU - Hola mundo} 
+Compilar y ejecutar en el entorno guest Debian MIPS.
 
 \begin{lstlisting}
 # gcc -Wall -g -o holamundo holamundo.c mystrlen.S 
