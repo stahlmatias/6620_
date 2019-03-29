@@ -1,69 +1,106 @@
-\section{Arquitectura de programación}
+\section{Arquitectura de Conjunto de Instrucciones (ISA)}
+         \begin{center}
+         \captionof{table}{\textit{Mix. de instrucciones}}\label{fig::232}
+         \begin{tabular}{||l|c||}
+         \hline
+         Instrucción & Frecuencia \\\hline
+         \textit{Load} & $26\%$ \\\hline
+         \textit{Store} & $10\%$ \\\hline
+         Aritméticas & $14\%$ \\\hline
+         Comparaciones & $13\%$ \\\hline
+         Saltos condicionales & $16\%$ \\\hline
+         Saltos incondicionales & $1\%$ \\\hline
+         \textit{Call / Return} & $2\%$ \\\hline
+         Shift & $4\%$ \\\hline
+         Logicas & $4\%$ \\\hline
+         Misc. & $5\%$ \\\hline
+         \end{tabular}
+         \end{center}
 
 \subsection{}
-	  \begin{small}
-			\begin{verbatim}                                   
-			Instruction     gap    gcc    gzip   mcf    perl   I. average
-			load           44.7%   35.5%  31.8%  33.2%  41.6%   37%
-			store          10.3%   13.2%  5.1%   4.3%   16.2%   10%
-			add             7.7%   11.2%  16.8%  7.2%   5.5%    10%
-			sub             1.7%   2.2%   5.1%   3.7%   2.5%    3%
-			mul             1.4%   0.1%                         0%
-			compare         2.8%   6.1%   6.6%   6.3%   3.8%    5%
-			cond branch     9.3%   12.1%  11.0%  17.5%  10.9%   12%
-			cond move       0.4%   0.6%   1.1%   0.1%   1.9%    1%
-			jump            0.8%   0.7%   0.8%   0.7%   1.7%    1%
-			call            1.6%   0.6%   0.4%   3.2%   1.1%    1%
-			return          1.6%   0.6%   0.4%   3.2%   1.1%    1%
-			shift           3.8%   1.1%   2.1%   1.1%   0.5%    2%
-			and             4.3%   4.6%   9.4%   0.2%   1.2%    4%
-			or              7.9%   8.5%   4.8%   17.6%  8.7%    9%
-			xor             1.8%   2.1%   4.4%   1.5%   2.8%    3%
-			other logical   0.1%   0.4%   0.1%   0.1%   0.3%    0%
-			load FP                                             0%
-			store FP                                            0%
-			add FP                                              0%
-			sub FP                                              0%
-			mul FP                                              0%
-			div FP                                              0%
-			mov reg-reg FP                                      0%
-			compare FP                                          0%
-			cond mov FP                                         0%
-			other FP                                            0%
-			\end{verbatim}
-			\end{small}
-		
-			Considerar el agregado de un nuevo modo de acceso a MIPS.
-			El nuevo modo suma dos registros y un valor de offset de 11 bits con signo para obtener
-			la dirección efectiva. Utilizar el porcentaje de instrucciones indicado en la tabla anterior.
-			\vspace{3mm}
-			El compilador pasa de las instrucciones: 
-			\begin{verbatim}
-			    add R1, R1, R2
-			    lw  Rd, 100(R1) #(o store)
-			\end{verbatim}
-			\vspace{1.5mm}
-			A utilizar:
-			\begin{verbatim}
-			    lw	Rd, 100(R1,R2)
-			\end{verbatim}
-			
-			\begin{enumerate}[label=\alph*)]
-			 \item Asumir que el nuevo modo de acceso es usado por el 10\% de los loads y stores. ¿Cual es el porcentaje de Ic nuevo comparado con la tasa original?
+         %      \begin{small}
+%            \begin{verbatim}                                   
+%            Instruction     gap    gcc    gzip   mcf    perl   I. average
+%            load           44.7%   35.5%  31.8%  33.2%  41.6%   37%
+%            store          10.3%   13.2%  5.1%   4.3%   16.2%   10%
+%            add             7.7%   11.2%  16.8%  7.2%   5.5%    10%
+%            sub             1.7%   2.2%   5.1%   3.7%   2.5%    3%
+%            mul             1.4%   0.1%                         0%
+%            compare         2.8%   6.1%   6.6%   6.3%   3.8%    5%
+%            cond branch     9.3%   12.1%  11.0%  17.5%  10.9%   12%
+%            cond move       0.4%   0.6%   1.1%   0.1%   1.9%    1%
+%            jump            0.8%   0.7%   0.8%   0.7%   1.7%    1%
+%            call            1.6%   0.6%   0.4%   3.2%   1.1%    1%
+%            return          1.6%   0.6%   0.4%   3.2%   1.1%    1%
+%            shift           3.8%   1.1%   2.1%   1.1%   0.5%    2%
+%            and             4.3%   4.6%   9.4%   0.2%   1.2%    4%
+%            or              7.9%   8.5%   4.8%   17.6%  8.7%    9%
+%            xor             1.8%   2.1%   4.4%   1.5%   2.8%    3%
+%            other logical   0.1%   0.4%   0.1%   0.1%   0.3%    0%
+%            load FP                                             0%
+%            store FP                                            0%
+%            add FP                                              0%
+%            sub FP                                              0%
+%            mul FP                                              0%
+%            div FP                                              0%
+%            mov reg-reg FP                                      0%
+%            compare FP                                          0%
+%            cond mov FP                                         0%
+%            other FP                                            0%
+%            \end{verbatim}
+%            \end{small}
+        
+            Considerar el agregado de un nuevo modo de acceso a MIPS.
+            El nuevo modo suma dos registros y un valor de offset de 11 bits con signo para obtener
+            la dirección efectiva. Utilizar el porcentaje de instrucciones indicado en la tabla \ref{fig::232}.
+            \vspace{3mm}
+            El compilador pasa de las instrucciones: 
+            \begin{verbatim}
+                add R1, R1, R2
+                lw  Rd, 100(R1) #(o store)
+            \end{verbatim}
+            \vspace{1.5mm}
+            A utilizar:
+            \begin{verbatim}
+                lw    Rd, 100(R1,R2)
+            \end{verbatim}
+            
+            \begin{enumerate}[label=\alph*)]
+             \item Asumir que el nuevo modo de acceso es usado por el $10\%$ de los \textit{loads} y \textit{stores}. ¿Cual es el porcentaje de IC nuevo comparado con la tasa original?
             \item Si el nuevo modo de direccionamiento aumenta en 5\% el tiempo de clock, ¿Cuál
-			       computadora será más rápida y por cuanto?
-			\end{enumerate}
+                   computadora será más rápida y por cuanto?
+            \item Describa una situación que limite el porcentaje de reemplazos realizado.
+            \end{enumerate}
 
 \subsection {}
             Al diseñar un sistema de memoria, es importante contrastar la frecuencia de accesos de lectura y accesos de escritura, así como
             accesos para leer instrucciones y accesos para datos.
 
-            Indicar: 
+            Utilizando la figura \ref{fig::232}, indicar: %
             \begin{itemize}
             \item Porcentaje de accesos a memoria que son accesos a datos.
-            \item Porcentaje de accesos de datos que son lecturas  
+            \item Porcentaje de accesos de datos\footnote{Nos referimos a las posiciones de memoria accedidas por instrucciones \textit{load}/\textit{store}} que son lecturas  
             \item Porcentaje de accesos a memoria que son lecturas
             \end{itemize}
+
+\subsection{}
+            Calcular el \underline{CPI Efectivo} para MIPS utilizando la figura \ref{fig::232}. Asumir que se obtuvieron los siguientes CPI para instrucciones.
+
+            \begin{center}
+            \begin{tabular}{||l|c||}
+            \hline
+            Instrucción & Ciclos \\
+            \hline
+            ALU & $1,0$ \\\hline
+            \textit{Load}/\textit{Store} & $1,4$ \\\hline
+            Saltos condicionales & \\\hline
+            \multicolumn{1}{||r|}{Tomados} & $2,0$ \\\hline
+            \multicolumn{1}{||r|}{No Tomados} & $1,5$ \\\hline
+            Saltos & $1,2$ \\\hline
+            \end{tabular}
+            \end{center}
+
+            Asumir que el $60\%$ de los saltos son tomados.
 
 \subsection{}
             Considere dos implementaciones $M1$ y $M2$ del mismo \textit{ISA}. Estamos interesados en la performance de dos programas $P1$ y $P2$, que tienen 
@@ -72,14 +109,10 @@
             \begin{center}
             \begin{tabular}{||c|c|c||}
             \hline
-            Operación & $P1$ & $P2$ \\
-            \hline
-            Load/Store & $40\%$ & $50\%$ \\
-            \hline
-            ALU        & $50\%$ & $20\%$ \\
-            \hline
-            Branches   & $10\%$ & $30\%$ \\
-            \hline
+            Operación & $P1$ & $P2$ \\\hline
+            \textit{Load}/\textit{Store} & $40\%$ & $50\%$ \\\hline
+            ALU        & $50\%$ & $20\%$ \\\hline
+            Saltos   & $10\%$ & $30\%$ \\\hline
             \end{tabular}
             \end{center}
 
@@ -93,7 +126,7 @@
             \hline
             ALU        & $1$ & $2$ \\
             \hline
-            Branches   & $3$ & $2$ \\
+            Saltos   & $3$ & $2$ \\
             \hline
             \end{tabular}
             \end{center}
