@@ -52,7 +52,7 @@
         
             Considerar el agregado de un nuevo modo de acceso a MIPS.
             El nuevo modo suma dos registros y un valor de offset de 11 bits con signo para obtener
-            la dirección efectiva. Utilizar el porcentaje de instrucciones indicado en la tabla \ref{fig::232}.
+            la dirección efectiva. Utilizar el porcentaje de instrucciones indicado en el Cuadro \ref{fig::232}.
             \vspace{3mm}
             El compilador pasa de las instrucciones: 
             \begin{verbatim}
@@ -65,26 +65,26 @@
                 lw    Rd, 100(R1,R2)
             \end{verbatim}
             
-            \begin{enumerate}[label=\alph*)]
+            \begin{enumerate}%[label=\alph*)]
              \item Asumir que el nuevo modo de acceso es usado por el $10\%$ de los \textit{loads} y \textit{stores}. ¿Cual es el porcentaje de IC nuevo comparado con la tasa original?
             \item Si el nuevo modo de direccionamiento aumenta en 5\% el tiempo de clock, ¿Cuál
                    computadora será más rápida y por cuanto?
             \item Describa una situación que limite el porcentaje de reemplazos realizado.
             \end{enumerate}
 
-\subsection {}
+\subsection{}
             Al diseñar un sistema de memoria, es importante contrastar la frecuencia de accesos de lectura y accesos de escritura, así como
             accesos para leer instrucciones y accesos para datos.
 
-            Utilizando la figura \ref{fig::232}, indicar: %
-            \begin{itemize}
+            Utilizando el Cuadro \ref{fig::232}, indicar: %
+            \begin{enumerate}
             \item Porcentaje de accesos a memoria que son accesos a datos.
             \item Porcentaje de accesos de datos\footnote{Nos referimos a las posiciones de memoria accedidas por instrucciones \textit{load}/\textit{store}} que son lecturas  
             \item Porcentaje de accesos a memoria que son lecturas
-            \end{itemize}
+            \end{enumerate}
 
 \subsection{}
-            Calcular el \underline{CPI Efectivo} para MIPS utilizando la figura \ref{fig::232}. Asumir que se obtuvieron los siguientes CPI para instrucciones.
+            Calcular el \underline{CPI Efectivo} para MIPS utilizando el Cuadro \ref{fig::232}. Asumir que se obtuvieron los siguientes CPI para instrucciones.
 
             \begin{center}
             \begin{tabular}{||l|c||}
@@ -131,7 +131,7 @@
             \end{tabular}
             \end{center}
 
-            \begin{itemize}
+            \begin{enumerate}
             \item Asuma que la frecuencia del reloj de $M1$ es 2GHz. ¿Cuál debería ser la frecuencia del reloj de $M2$ para que ambas
             computadoras reporten el mismo Tiempo de ejecución para $P1$?
 
@@ -140,7 +140,65 @@
 
             \item Determine un conjunto de trabajo tal que $M1$ y $M2$ tengan la misma performance cuando tienen la misma frecuencia de reloj
 
-            \end{itemize}
+            \end{enumerate}
+            
+\subsection{[2.6 $3^{ed}$ CAAQA]}
+Varios investigadores han sugerido que incorporar un modo de direccionamiento registro-memoria a una máquina load/store puede ser conveniente. La idea es reemplazar la siguiente secuencia
+
+\begin{verbatim}
+LOAD    R1, 0(Rb)
+ADD     R2, R2, R1
+\end{verbatim}
+
+por
+
+\begin{verbatim}
+ADD R2, O(Rb) 
+\end{verbatim}
+
+
+
+Asumir que la nueva intrucción provoca un incremento en el ciclo de clock del 5\%. Utilizar la frecuencia de intrucciones del Cuadro \ref{fig::232}. La nueva intrucción afecta únicamente al ciclo de clock y no al CPI.
+
+\begin{enumerate}
+ \item ¿Qué porcentaje de loads deben ser eliminados en la máquina con la nueva instrucción para tener al menos el mismo rendimiento?
+ \item Mostrar una secuencia de intrucciones donde un load de R1 seguido inmediatamente por el uso de R1 (con algún tipo de opcode) no podría ser reemplazado por una única instrucción como la propuesta, asumir que el mismo opcode existe.
+\end{enumerate}
+
+\subsection{[2.8 $3^{ed}$ CAAQA]}
+
+Para el siguiente código C:
+\begin{verbatim}
+for (i=0; i<=100; i++){
+	A[i] = B[i] + C;
+}
+\end{verbatim}
+
+
+Suponer que A y B son arreglos de enteros de 64 bits y C es un entero de 64 bits. Suponer que todos los valores para datos y direcciones se encuentran en memoria (en las direcciones 0, 5000, 1500 y 2000 para A, B, C e i respectivamente) excepto cuando se operan sobre ellos. Suponer que los valores de los registros se pierden entre iteraciones del bucle.
+
+\begin{enumerate}
+ \item Escribir el código MIPS correspondiente
+ \item ¿Cuántas instrucciones son requeridas dinámicamente?
+ \item ¿Cuántas referencias a memoria para datos son ejecutadas?
+ \item ¿Cuál es el tamaño del código en bytes?
+\end{enumerate}
+
+  
+\subsection{[2.9 $3^{ed}$ CAAQA]}
+Para el código del ejercicio anterior colocar las variables escalares (i, C, y las direcciones de los arreglos, no el arreglo en si) en registros y mantenerlas donde sea posible.
+
+\begin{enumerate}
+ \item Escribir el código MIPS correspondiente
+ \item ¿Cuántas instrucciones son requeridas dinámicamente?
+ \item ¿Cuántas referencias a memoria para datos son ejecutadas?
+ \item ¿Cuál es el tamaño del código en bytes?
+\end{enumerate}
+
+\subsection{[2.19 $3^{ed}$ CAAQA]}
+
+El diseño de MIPS brinda 32 registros de propósito general y 32 registros de punto flotante. Si los registros son "buenos", ¿tener más registros es mejor?. Armar una lista y discutir todos los \textit{trade-off} posibles que se le ocurra considerando el cuando y el cuanto para incremento de registros con el criterio de los diseñadores de ISA en mente. 
+
 \subsection{}
       Pasar el siguiente código C a MIPS.
       \begin{small}
