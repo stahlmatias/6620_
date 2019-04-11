@@ -39,7 +39,7 @@
 		  [2.5ex]
 		 \\
          \normalsize{1er. Cuatrimestre de 2019}            \\
-         \normalsize{66.20 Organización de Computadoras $-$ Práctica Jueves} \\
+         \normalsize{86.37 / 66.20 Organización de Computadoras $-$ Práctica Jueves} \\
          \normalsize{Facultad de Ingeniería, Universidad de Buenos Aires} 
        }
 
@@ -51,6 +51,7 @@
 % \thispagestyle{empty}   % quita el número en la primer página
 
 % \newpage
+% Es un breve resumen de lo que vamos a leer con mayor profundidad en las secciones posteriores, tiene que resaltar lo más importante.
 \begin{abstract}
 \lipsum[3-3]
 \end{abstract}
@@ -77,10 +78,11 @@
 % \newpage
 
 \parskip 7.2pt
-
+%Distinto al resumen, se dice cual es el objetivo principal y se hace un resumen de cada parte que aparece a continuación. 
 \section{Introducción}
 \lipsum[3-3]
 
+%Formas de invocar a la aplicación a desarrollar.
 
 \begin{verbatim}
 -V, --version
@@ -88,8 +90,11 @@
 -i, --ignore-case 
 \end{verbatim}
 
+%Una de las secciones más importantes del informe. Aquí se explaya todo lo realizado, problemas encontrados y soluciones propuestas con variantes y métricas.
 
 \section{Diseño e Implementación}
+
+% Sub sección optativa, sólo es un ejemplo, como se resuelve la entrada de arguemtos, como se parsearon y analizaron las opciones válidas e inválidas.
 \subsection{Análisis de la línea de comandos}
 Las opciones válidas ingresadas por línea de comandos como fue mencionado, pueden ser:
 
@@ -113,13 +118,14 @@ const struct option long_opt[] = {
 \end{verbatim}
 
 
-
+%Explica los códigos de salida de la aplicación, probarlos en consola con echo $?
 \begin{itemize}
  \item COD\_HELP 0: Se solicitó la ayuda por medio de la opción -h.
  \item COD\_VERSION 1: Se solicitó la versión por medio de la opción -v.
 \end{itemize}
 
 \newpage
+%En esta sub sección se debe explicar con palabras las funciones más importantes que permitieron resolver el trabajo práctico.
 \subsection{Desarrollo del Código Fuente}
 \lipsum[3-3]
 
@@ -165,7 +171,7 @@ Los casos de prueba presentados fueron llevados a cabo en una arquitectura MIPS 
 
 Los programas también fueron probados en Ubuntu-Linux corriendo en una arquitectura Intel x86 satisfactoriamente.
 
-
+%Casos de prueba que permiten verificar exhaustivamente el uso de la aplicación y su correctitud.
 \section{Casos de Prueba}
 
 A continuación mostraremos los casos básicos de prueba realizados a la aplicación.
@@ -242,7 +248,8 @@ Linux dell 2.6.32-33-generic #72-Ubuntu SMP Fri Jul 29 21:08:37 UTC 2011 i686 GN
 
 :~/6620-tp0$ valgrind -v --tool=memcheck --leak-check=yes ./join-6620 -i ApellidoNombre Puntaje
 
-[...]
+[...]%  \newpage
+
 ==12692== HEAP SUMMARY:
 ==12692==     in use at exit: 0 bytes in 0 blocks
 ==12692==   total heap usage: 24 allocs, 24 frees, 1,144 bytes allocated
@@ -259,13 +266,15 @@ Linux dell 2.6.32-33-generic #72-Ubuntu SMP Fri Jul 29 21:08:37 UTC 2011 i686 GN
 \normalsize
 
 \newpage
-\section{Conclusiones}
+%Se deben resaltar con fundamentos reales la importancia y los aspectos más relevantes en la realización del trabajo práctico.
+\section{Conclusión}
 
 \lipsum[3-3]
 
 
 \vspace{.5cm}
- \begin{thebibliography}{5}
+%Referencias o recursos utilizados durante la investigación para la resolución del trabajo práctico 
+\begin{thebibliography}{5}
  \bibitem{} GXemul. \url{http://gavare.se/gxemul/}.
  \bibitem{} The NetBSD project. \url{http://www.netbsd.org/}.
  \bibitem{} Vim the Editor. \url{http://www.vim.org/}.
@@ -276,10 +285,15 @@ Linux dell 2.6.32-33-generic #72-Ubuntu SMP Fri Jul 29 21:08:37 UTC 2011 i686 GN
  
 \newpage
 
+%Incluir el enunciado del trabajo práctico
  \appendix
  \section{Enunciado}
  
-%  \newpage
+ %Incluir todo el código del trabajo práctico.
+\newpage
+
+ \section{Código fuente}
+
 %  
 %  \section{Código Assembler de arquitectura MIPS}
 
