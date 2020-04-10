@@ -10,6 +10,7 @@ columns=flexible,
 breaklines=true
 }
 
+
 \usepackage{multicol}
 
  \title[66.20/86.37]{U.B.A. - Facultad de Ingeniería\\\vspace{0.25cm} 66.20/86.37 Organización de Computadoras
@@ -24,7 +25,16 @@ breaklines=true
 \end{frame}
 
 \begin{frame}
- \frametitle{Docentes}
+ \frametitle{Docentes práctica martes}
+ \begin{itemize}
+  \item Ing. Leandro Santi\\ \href{mailto:lesanti@gmail.com}{lesanti@gmail.com}
+  \item Ing. Hernán Pérez Masci\\ \href{hernan.perez@gmail.com}{hernan.perez@gmail.com}
+  \item Ing. Luciano Natale\\ \href{lnatale@fi.uba.ar}{lenatale@fi.uba.ar}
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Docentes práctica jueves}
  \begin{itemize}
   \item Dr. Ing. Juan Heguiabehere\\ \href{mailto:jheguia@gmail.com}{jheguia@gmail.com}
   \item Ing. Tomás Niño Kehoe\\ \href{tomasninokehoe@gmail.com}{tomasninokehoe@gmail.com}
@@ -47,8 +57,8 @@ breaklines=true
  \frametitle{Evaluación}
  \begin{itemize}
 \item Parcial con dos recuperatorios
-\item Trabajos práctico grupal obligatorios
-\item Participación en clase
+\item Trabajos prácticos grupales obligatorios
+\item Participación en clase, en el campus, lista de correo y Slack
 \end{itemize}
  \end{frame}
 
@@ -152,6 +162,7 @@ $ sudo apt install qemu-system-mips
  \end{lstlisting}
 \end{frame}  
 
+\lstset{upquote=true}
 \begin{frame}[fragile]
  \frametitle{Herramientas: QEMU - Preparación del entorno}
 Una vez finalizada la descarga de los archivos necesarios, ejecutar en el sistema Host lo siguiente:
@@ -164,7 +175,7 @@ Una vez finalizada la descarga de los archivos necesarios, ejecutar en el sistem
  -device virtio-net,netdev=user.0 \
  -net user,hostfwd=tcp::5555-:22 -net nic \
  -device usb-kbd -device usb-tablet \
- -kernel vmlinux-* -initrd initrd.img-* \
+ -kernel vmlinux-*-initrd initrd.img-* \
  -drive file=$(echo debian-*.qcow2),if=virtio -nographic
 \end{lstlisting}
 
@@ -308,12 +319,20 @@ Compilar y ejecutar en el entorno guest Debian MIPS.
 Hola mundo.
 # 
 \end{lstlisting}
+
+Para ver el código assembly resultante ejecutar
+
+
+\begin{lstlisting}
+# objdump -S holamundo
+\end{lstlisting}
+
 \end{frame}
 
 \begin{frame}
  \frametitle{Links}
  \begin{itemize}
-\item Grupo Yahoo \\ \url{https://groups.yahoo.com/neo/groups/orga6620}
+\item Grupo Google
 \item Grupo Slack \\ \url{https://orga6620.slack.com}
  \end{itemize}
  \end{frame}
