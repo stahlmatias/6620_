@@ -1,0 +1,6 @@
+\frametitle{Ejercicio 2.12 CAAQA 3ed}
+\begin{enumerate}[a.]
+ \item Assume that the addressing mode can be used 10\% of the displacement loads and stores (accounting for both the frecuency on this type of address calculation and the shorter offset). What is the ratio of instruction count on the enhanced MIPS compared to the original MIPS?
+\item If the new addresing mode lenghtens the clock cycle by 5\%, which machine will be faster and by how much?
+\end{enumerate}
+
