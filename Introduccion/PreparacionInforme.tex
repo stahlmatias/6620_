@@ -1,0 +1,115 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usetheme{default}
+
+\usepackage{listings}
+\lstset{
+basicstyle=\small\ttfamily,
+columns=flexible,
+breaklines=true
+}
+\usepackage{enumerate}
+\usepackage{epstopdf}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{mathdots}
+\usepackage{yhmath}
+\makeatletter
+\DeclareMathSizes{\f@size}{10}{7}{7}
+\makeatother
+
+\title[66.20/86.37]{U.B.A. - Facultad de Ingeniería\\\vspace{0.25cm} 66.20/86.37 Organización de Computadoras
+\\Introducción }
+\author{Práctica}
+\date{1$^{er}$ cuatrimestre 2020}
+
+
+\begin{document}
+\begin{frame}
+\titlepage % Print the title page as the first frame
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Guia para preparación de informes}
+El informe que acompañe el desarrollo de cada trabajo práctico además de ser confeccionado en \LaTeX deberá seguir los siguientes lineamientos:
+\end{frame}
+
+\begin{frame}
+\frametitle{Secciones}
+Las siguientes secciones son obligatorias:
+
+\begin{multicols}{2}
+\begin{itemize}
+\item \textbf{Carátula}
+\item \textbf{Introducción}
+\item \textbf{Diseño e implemetación}
+\item \textbf{Proceso de compilación}
+\item \textbf{Portabilidad}
+\item \textbf{Casos de prueba}
+\item \textbf{Conclusiones}
+\item \textbf{Referencias}
+\item \textbf{Apéndices}
+\end{itemize}
+\end{multicols}
+\end{frame}
+
+\begin{frame}
+\frametitle{Carátula}
+La carátula es la primer página del informe y debe contener información relevante de los alumnos que desarrollaron el trabajo práctico.
+\begin{itemize}
+\item Nombre y apellido
+\item Padrón
+\item Dirección de correo electrónico
+\item Usuario de Slack
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Introducción}
+La introducción debe describir brevemente el objetivo del trabajo práctico y como se logró realizarlo. Destacar los puntos más relevantes del diseño y desarrollo.
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Diseño e implemetación}
+En esta sección se debe explicar en forma clara y en forma coloquial las partes del desarrollo que presentaron mayores dificultades o las más relevantes para la solución. Mostrar que problemas se presentaron y en que forma se atacaron para resolverlos. Se puede mostrar un fragmento de código fuente de ser necesario.
+
+Se debe describir completamente el entorno y las herramientas utilizadas con sus respectivas versiones.
+\end{frame}
+
+\begin{frame}
+\frametitle{Proceso de compilación}
+Se debe indicar el comando para compilar la aplicación con sus fuentes respectivos, flags utilizados y su justificación ya sea utilizando un makefile u otro mecanismo.
+\end{frame}
+
+\begin{frame}
+\frametitle{Portabilidad}
+Describir que consideraciones se tomaron para lograr la portabilidad de la aplicación considerando un entorno Debian/Linux en MIPS y un entorno Linux x86.
+\end{frame}
+
+\begin{frame}
+\frametitle{Casos de prueba}
+Esta sección es una de las más importantes del informe donde se debe mostrar y verificar el correcto funcionamiento de la aplicación. Cada sección o módulo que compone la aplicación se debe probar exhaustivamente con casos de prueba relevantes. Aquí se deben incluir los casos de prueba básicos que se muestran en el enunciado del trabajo práctico como varios propuestos por los integrantes del grupo. Si se utilizan archivos auxiliares estos deben formar parte de la entrega y debe estar el comando y su salida en el informe en un entorno verbatim. No incluir screenshots.
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Conclusiones}
+Sin dudas la sección más importante del informe y bajo ningún concepto se debe omitir por más trivial que parezca el enunciado o el problema a resolver. No se espera que sea muy extensa pero debe indicar que aportó el desarrollo del trabajo práctico y su relevancia, se puede volver a remarcar los resultados más importantes que se obtuvieron y junto con su justificación. Nunca se debe dejar de lado la parte cuantitativa en la que se fundamenta la materia. 
+\end{frame}
+
+\begin{frame}
+\frametitle{Referencias}
+Listar la bibliografia y páginas web de forma adecuada utilizadas para realizar el trabajo práctico. 
+\end{frame}
+
+\begin{frame}
+\frametitle{Apéndices}
+Como apéndice se debe incluir el código fuente y el enunciado del trabajo práctico.
+\end{frame}
+
+\end{document}
+
