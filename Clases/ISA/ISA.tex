@@ -12,6 +12,7 @@ breaklines=true
 
 \usepackage{epstopdf}
 \usepackage{multicol}
+\usepackage{caption}
 
 \makeatletter
 \DeclareMathSizes{\f@size}{10}{7}{7}
@@ -64,18 +65,19 @@ En este tipo de arquitectura, la memoria solo puede ser accedida a través de in
 \begin{frame}
  \frametitle{Ejercicio 2.1 CAAQA 3ed}
  
-For the following assume that values A, B, C, D and E reside in memory. Also assume that instruction operation codes are represented in 8 bits, memory addresses are 64 bits, and register addresses are 6 bits.
+Asumir que los valores A, B, C, D y E residen en memoria, que el opcode de la instrucción es de 8 bits, las direcciones de memoria son de 64 bits y las direcciones de registro son de 6 bits.
 
 \begin{enumerate}[a]
- \item For each instruction set architecture shown in Figure 2.2, how many addresses, or names, appear in each instruction for the code to compute C = A + B and what is the total code size?
+ \item Por cada arquitectura del conjunto de instrucciones mostradas en el primer slide ?`Cuántas direcciones o nombres aparecen en cada instrucción para calcular  C = A + B y cuál es el tamaño total del código?
 
- \item Some of the instruction set architectures in figure 2.2 destroy operands in the course of computation. This loss of data values from processor internal storage has performance consequences. For each architecure in Figure 2.2 write the code sequence to compute C = A + B followed by D = A - E. In your code, mark each operand that is destroyed during execution and mark each "overhead" instruction that is included just to overcome this number of overhead instructions, and the number of overhead data bytes for each of your code sequences?
+ \item Algunas ISAs de la figura del primer slide destruyen los operando durante el cómputo y trae una consecuencia de performance. Para cada arquitectura escribir la secuencia de código para calcular C = A + B seguido de D = A - E. En el código, indicar cada operando que se destruye durante la ejecución e indicar en cada una el “overhead”  que se incluye como solución. Dar el tamaño en total del código, los datos que son movidos de o hacia memoria y el overhead de cada secuencia de código.
 \end{enumerate}
 \end{frame}
 
+
 \begin{frame}
  \frametitle{Ejercicio 2.2 CAAQA 3ed}
- Some operations on two operands (substraction, for example) are not commutative. What are the advanges and disadvantages of the stack, accumulator, and load-store architectures when executing noncummutative operations?
+Algunas operaciones con dos operando no son conmutativas (la resta por ejemplo). ?`Qué ventajas y desventajas en las arquitecturas de pila, acumulador y carga-almacentamiento existen cuando se ejecuta operaciones no conmutativas?
 \end{frame}
 
 
@@ -157,15 +159,29 @@ Usando el registro 0 se consigue Absolute, y con displacement 0 se consigue Regi
 
 \begin{frame}
  \frametitle{Ejercicio 2.3 CAAQA 3ed}
- The value represented by the hexadecimal number 434F 4D50 5554 4552 is to be stored in an aligned 64-bit double word.
- 
+ El valor representado por el número hexadecimal 434F 4D50 5554 4552 se almacena en una palabra doble alineada en 64 bits.
+
  \begin{enumerate}[a.]
-  \item Using the physical arrangement of the first row in Figure 2.5, write the value to be stored using Big Endian byte order. Next, interpret each byte as an ASCII character and below each byte write the correspondig character, forming the character string as it would be stored in Big Endian order.
+  \item Utilizando el arreglo físico de la primera fila en la Figura 2.5, escribir el valor a ser almacenado utilizando el orden de byte Big Endian. Luego, interpretar cada byte como caracter ASCII y debajo de cada byte escribir el caracter correspondiente formando la cadena de caracteres que se almacenaría en el orden Big Endian.
   
-  \item Using the same physical arrangement as in part (a.), write the value to be stored using the Little Endian byte order and below each byte write the corresponding ASCII character.
+  \item Realizar el punto (a.) pero siguiendo el orden Little Endian.
+
  \end{enumerate}
 
 \end{frame}
+
+\begin{frame}
+ \frametitle{Ejercicio 2.3 CAAQA 3ed}
+ \begin{center}
+ \begin{figure}
+ \includegraphics[scale=.35,keepaspectratio=true]{align.png}
+ \caption*{Fiigura 2.5: Direcciones de byte alineadas y no alineadas} %Fix this
+
+ \end{figure}
+
+\end{center}
+ \end{frame}
+
 
 \begin{frame}
  \frametitle{Encoding MIPS} 
@@ -196,59 +212,105 @@ Usando el registro 0 se consigue Absolute, y con displacement 0 se consigue Regi
  ¿Por qué se puede (y conviene) tomar los 26 bits como desplazados a la izquierda 2 bits?
 \end{frame}
 
+\begin{frame}
+
+         \begin{center}
+         \begin{table}
+         \begin{tabular}{||l|c||}
+         \hline
+         Instrucción & Frecuencia \\\hline
+         \textit{Load} & $26\%$ \\\hline
+         \textit{Store} & $10\%$ \\\hline
+         Aritméticas & $14\%$ \\\hline
+         Comparaciones & $13\%$ \\\hline
+         Saltos condicionales & $16\%$ \\\hline
+         Saltos incondicionales & $1\%$ \\\hline
+         \textit{Call / Return} & $2\%$ \\\hline
+         Shift & $4\%$ \\\hline
+         Logicas & $4\%$ \\\hline
+         Misc. & $5\%$ \\\hline
+
+         \end{tabular}
+                           \caption*{\textit{Tabla 1: Mix. de instrucciones}} \label{tab:tabla1} %Fix this
+\end{table}
+         \end{center}
+
+\end{frame}
+     
 \begin{frame}[fragile]
  \frametitle{Ejercicio 2.6 CAAQA 3ed}
- Several reserchers have suggested that adding a register-memory addressing mode to a load store machine be useful. The idea is to replace sequences of
+Varios investigadores han sugerido que incorporar un modo de direccionamiento registro-memoria a una máquina \textit{Load/Store} puede ser conveniente. La idea es reemplazar la siguiente secuencia
  
 \begin{lstlisting}
  LOAD   R1, 0(Rb)
  ADD    R2, R2, R1
 \end{lstlisting}
 
-by
+por
 
 \begin{lstlisting}
  ADD    R2, 0(Rb)
 \end{lstlisting}
 
-Assume the new instruction will cause the clock cycle to increase by 5\%. Use the instruction frequencies for the gcc benchmark on the load-store machine from figure 2.32. The new instruction affects only the clock cycle and not the CPI.
+
+Asumir que la nueva instrucción provoca un incremento en el ciclo de clock del $5\%$. Utilizar la frecuencia de instrucciones de la Tabla 1. La nueva instrucción afecta únicamente al ciclo de clock y \underline{no al CPI}.
+
 \end{frame}
+
 \begin{frame}
  \frametitle{Ejercicio 2.6 CAAQA 3ed}
 \begin{enumerate}[a.]
- \item What percentage of the loads must be eliminated for the machine with the new instruction to have at least the same performance?
- 
- \item Show a situation in a multiple instruction sequence where a load of R1 followed immediately by a use of R1 (with some type of opcode) could not be replaced by a single instruction of the form proposed, assuming that the same opcode exists.
+\item ¿Qué porcentaje de loads deben ser eliminados en la máquina con la nueva instrucción para tener al menos el mismo rendimiento?
+\item Mostrar una secuencia de instrucciones donde un load de R1 seguido inmediatamente por el uso de R1 (con algún tipo de opcode) no podría ser reemplazado por una única instrucción como la propuesta, asumir que el mismo opcode existe.  
 \end{enumerate}
 \end{frame}
 
 \begin{frame}
  \frametitle{Ejercicio 2.11 CAAQA 3ed}
- Compute the effective CPI for MIPS using Figure 2.32. Suppose we have made the following measurements of average CPI for instructions:
+            Calcular el \underline{CPI Efectivo} para MIPS utilizando la Tabla 1. Asumir que se obtuvieron los siguientes CPI para instrucciones.
+
+            \begin{center}
+            \begin{tabular}{||l|c||}
+            \hline
+            Instrucción & Ciclos \\
+            \hline
+            ALU & $1,0$ \\\hline
+            \textit{Load}/\textit{Store} & $1,4$ \\\hline
+            Saltos condicionales & \\\hline
+            \multicolumn{1}{||r|}{Tomados} & $2,0$ \\\hline
+            \multicolumn{1}{||r|}{No Tomados} & $1,5$ \\\hline
+            Saltos & $1,2$ \\\hline
+            \end{tabular}
+            \end{center}
+
+            Asumir que el $60\%$ de los saltos son tomados.
  
- Assume that 60\% of the conditional branches are taken and that all instruction in the ``other'' category of Figure 2.32 are ALU instructions. Average the instruction fracuencies of gap and gcc to obtain the instruction mix.
 \end{frame}
 
 \begin{frame}[fragile]
  \frametitle{Ejercicio 2.12 CAAQA 3ed}
-Consider adding a new index addressing mode to MIPS. The addressing mode adds two registers and a 11-bit signed offset to get the effective address.
-Our compiler will be changed so that code sequences of the form 
-
+ 
+ Considerar el agregado de un nuevo modo de acceso a MIPS. El nuevo modo suma dos registros y un valor de offset de 11 bits con signo para obtener la dirección efectiva. Utilizar el porcentaje de instrucciones indicado en la Tabla 1. El compilador pasa de las instrucciones: 
+    
 \begin{lstlisting}
 ADD     R1, R1, R2
 LW      Rd, 100(R1)	(or Store)
  \end{lstlisting}
 
-
-will be replaced with a load (or store) using the new addressing mode. Use the overall average instruction frequencies from Figure 2.32 in evaluating this addition.
+A utilizar:
+\begin{lstlisting}
+LW    Rd, 100(R1,R2)
+ \end{lstlisting}
 
 \end{frame}
 
 \begin{frame}[fragile]
  \frametitle{Ejercicio 2.12 CAAQA 3ed}
 \begin{enumerate}[a.]
- \item Assume that the addressing mode can be used 10\% of the displacement loads and stores (accounting for both the frecuency on this type of address calculation and the shorter offset). What is the ratio of instruction count on the enhanced MIPS compared to the original MIPS?
-\item If the new addresing mode lenghtens the clock cycle by 5\%, which machine will be faster and by how much?
+ \item Asumir que el nuevo modo de acceso es usado por el $10\%$ de los \textit{loads} y \textit{stores}. ¿Cuál es el porcentaje de IC nuevo comparado con la tasa original?
+\item Si el nuevo modo de direccionamiento aumenta en 5\% el tiempo de clock, ¿Cuál computadora será más rápida y por cuanto?
+\item Describa una situación que limite el porcentaje de reemplazos realizado.
+
 \end{enumerate}
 
 \end{frame}
