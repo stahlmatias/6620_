@@ -6,13 +6,14 @@ memoria que tiene 100ns de latencia y 200MHz de ancho de banda, en la que ejecut
 programa:
 
 \begin{verbatim}
-$L9:
-    addu    $v0,$v0,$a1
-    sw      $v1,0($v0)
-    addu    $v1,$v1,1
-    sltu    $v0,$v1,$a0
-    sll     $v0,$v1,2
-    bne     $v0,$zero,$L9
+// v0 = v1 = 0
+L9:
+addu $v0, $v0, $a1
+sw    $v1, 0($v0)
+addu $v1, $v1, 4
+sltu   $v1, $v1, $a0
+addu $v0, $v0, 4
+bne $v1, $zero, $L9
 \end{verbatim}
 
 Si el registro \texttt{\$a0} contiene el valor 200, el registro a1 contiene el valor \texttt{0xcafebeb0}, y el programa está almacenado a partir de \texttt{0x0000f000}
